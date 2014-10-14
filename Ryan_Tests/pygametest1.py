@@ -12,6 +12,7 @@ class GameBoard(object):
             self.webstats = [self.centerpoint]
 
         def draw(self, surface):
+            self.surface = surface
             axisLen = int(self.radincr * 4.5)
             diagOffset = int((axisLen**2/2)**.5)    # Determine length of diagonal lines
             arcBox = int((self.radincr**2/2)**.5)        # Determine length of side of rect to contain arc
@@ -23,9 +24,9 @@ class GameBoard(object):
             pyg.draw.line(surface, (0,0,0), (self.webCX - diagOffset, self.webCY - diagOffset), (self.webCX + diagOffset, self.webCY + diagOffset), 5)
             pyg.draw.line(surface, (0,0,0), (self.webCX + diagOffset, self.webCY - diagOffset), (self.webCX - diagOffset, self.webCY + diagOffset), 5)
           
-        def getmouseregion(self):
+        def getmouseregion(self, mouseLoc):
             # Both hover and click?
-                    pass  
+            pyg.draw.circle(self.surface, (255,0,0), mouseLoc, 1, 0)
 
         def highlightregion(self, theta, radius, rb):
             if rb == 'r':
@@ -39,11 +40,11 @@ class GameBoard(object):
 
 def main():
     pyg.init()
-    screen = pyg.display.set_mode((800, 800))
+    screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
     pyg.display.set_caption('A test pygame program')
     
     # Fill background
-    background = pyg.Surface(screen.get_size())
+    background = pyg.Surface(screen.get_size()) # background is a surface
     background = background.convert()
     background.fill((250, 250, 250))
     screen.blit(background, (0, 0))
@@ -67,8 +68,22 @@ def main():
             if event.type == QUIT:
                 pyg.quit()
                 return
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pyg.quit()
+                    return
+            elif event.type == MOUSEMOTION:     # Only update when mouse moves
+                mousePos = mx,my = pyg.mouse.get_pos()     # Current position of mouse cursor
+                print mx,my
+                # spiderweb.getmouseregion(mousePos)  # Draw dots following the cursor
+            elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
+                print 'mousedown'
+                lClick = pyg.mouse.get_pressed()[0] # Status of left mouse button
+                if lClick == 1:
+                    print 'Click'   # May need to debounce
 
-        screen.blit(background, (0, 0))
+
+        screen.blit(background, (0, 0)) # Blit background
         pyg.display.flip()
 
 if __name__ == '__main__':
