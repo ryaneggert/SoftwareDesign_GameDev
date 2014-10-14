@@ -60,14 +60,32 @@ def main():
     background.fill((250, 250, 250))
     screen.blit(background, (0, 0))
     
+     # Make a blue 2 player button
+    p2_button = Button()
+    p2 = p2_button.create_button(background,(0,0,255), 200, 200, 400, 75, 0, "2 Players", (0,0,0))
+    p2pos = p2.get_rect()
+    p2pos.centerx = screen.get_rect().centerx   
+    screen.blit(p2, p2pos)
+    pyg.display.flip()
+    
+     # Make a red 3 player button
+    p3_button = Button()
+    p3 = p3_button.create_button(background,(255,0,0), 200, 400, 400, 75, 0, "3 Players", (0,0,0))
+    p3pos = p3.get_rect()
+    p3pos.centerx = screen.get_rect().centerx   
+    screen.blit(p3, p3pos)
+    pyg.display.flip()
+    
     # Make a purple rules button
     rules_button = Button()
-    rule = rules_button.create_button(background,(157,20,181), 200, 700, 400, 75, 0, "Rules", (0,0,0))
-    screen.blit(rule, (0,0))
+    rule = rules_button.create_button(background,(157,20,181), 200, 600, 400, 75, 0, "Rules", (0,0,0))
+    rulespos = rule.get_rect()
+    rulespos.centerx = screen.get_rect().centerx   
+    screen.blit(rule, rulespos)
     pyg.display.flip()
     
     # Display title text
-    font = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 36)
+    font = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 54)
     text = font.render("Welcome to Spider Tic-Tac-Toe!", 1, (10, 10, 10))
     textpos = text.get_rect()
     textpos.centerx = screen.get_rect().centerx
@@ -88,7 +106,11 @@ def main():
                 print 'mousedown'
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
-                    print 'Rules'   # May need to debounce
+                    print 'Rules'
+                if p2_button.pressed(mouse_pos):
+                    print '2 Players'
+                if p3_button.pressed(mouse_pos):
+                    print '3 Players'
                     
 if __name__ == '__main__':
     main()
