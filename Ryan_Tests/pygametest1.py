@@ -43,7 +43,7 @@ def main():
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
     pyg.display.set_caption('A test pygame program')
     
-    # Fill background
+    # Fill background   
     background = pyg.Surface(screen.get_size()) # background is a surface
     background = background.convert()
     background.fill((250, 250, 250))
