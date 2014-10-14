@@ -130,10 +130,9 @@ def gamescreenmain():
                 sectorHist.append(spiderweb.getmousesector(mousePol))
                 # spiderweb.getmouseregion(mousePos)  # Draw dots following the cursor
             elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
-                print 'mousedown'
                 lClick = pyg.mouse.get_pressed()[0] # Status of left mouse button
                 if lClick == 1:
-                    print 'Click'
+                    print 'Left Click'
         background.fill((250, 250, 250))
         spiderweb.draw(background)
         if sectorHist[1] != (None, None):
