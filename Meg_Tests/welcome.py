@@ -106,7 +106,11 @@ def main():
                 print 'mousedown'
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
-                    print 'Rules'   # May need to debounce
+                    print 'Rules'
+                if p2_button.pressed(mouse_pos):
+                    print '2 Players'
+                if p3_button.pressed(mouse_pos):
+                    print '3 Players'
                     
 if __name__ == '__main__':
     main()
