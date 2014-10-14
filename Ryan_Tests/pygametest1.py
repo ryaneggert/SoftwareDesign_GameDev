@@ -62,6 +62,13 @@ def main():
     radIncr = 73
     spiderweb = GameBoard(webCenter, radIncr)
     spiderweb.draw(background)
+    screen.blit(background, (0, 0)) # Blit background   
+    pyg.display.flip()
+    maskt = pyg.mask.from_threshold(background, (0,0,0), (50,50,50))
+    maskrects = maskt.get_bounding_rects()
+    print maskrects
+    # for rectangle in maskrects:
+    #     pyg.draw.rect(background,(255,120,0), rectangle, 5)
 
     while True:
         for event in pyg.event.get():
@@ -74,14 +81,14 @@ def main():
                     return
             elif event.type == MOUSEMOTION:     # Only update when mouse moves
                 mousePos = mx,my = pyg.mouse.get_pos()     # Current position of mouse cursor
-                print mx,my
+                # print mx,my
+                print maskt.get_at((mx,my))
                 # spiderweb.getmouseregion(mousePos)  # Draw dots following the cursor
             elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
                 print 'mousedown'
                 lClick = pyg.mouse.get_pressed()[0] # Status of left mouse button
                 if lClick == 1:
                     print 'Click'   # May need to debounce
-
 
         screen.blit(background, (0, 0)) # Blit background
         pyg.display.flip()
