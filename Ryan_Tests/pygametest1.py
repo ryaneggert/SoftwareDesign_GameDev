@@ -1,6 +1,7 @@
 ### pygametest1.py ###
 
 import pygame as pyg
+import math
 from pygame.locals import *
 
 class GameBoard(object):
@@ -38,8 +39,21 @@ class GameBoard(object):
             # pyg.draw.arc(background, color, 
 
 
-def main():
-    pyg.init()
+def mousetopolar(mouseLoc, webCenter):
+    mx,my = mouseLoc
+    cx,cy = webCenter
+    rmx = (mx-cx)   # Remapped x (x if the web center is defined now to be the origin)
+    rmy = -(my-cy)   # Remapped y (y if the web center is defined now to be the origin)
+    mr = math.hypot(rmx, rmy)
+    mtheta = math.degrees(math.atan2(rmy,rmx))
+    if mtheta < 0:
+        mtheta += 360
+    return mr, mtheta
+
+
+
+
+def gamescreenmain():
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
     pyg.display.set_caption('A test pygame program')
     
@@ -66,7 +80,6 @@ def main():
     pyg.display.flip()
     maskt = pyg.mask.from_threshold(background, (0,0,0), (50,50,50))
     maskrects = maskt.get_bounding_rects()
-    print maskrects
     # for rectangle in maskrects:
     #     pyg.draw.rect(background,(255,120,0), rectangle, 5)
 
@@ -81,8 +94,8 @@ def main():
                     return
             elif event.type == MOUSEMOTION:     # Only update when mouse moves
                 mousePos = mx,my = pyg.mouse.get_pos()     # Current position of mouse cursor
-                # print mx,my
-                print maskt.get_at((mx,my))
+                mousePol = mousetopolar(mousePos, spiderweb.centerpoint)
+                print mousePol
                 # spiderweb.getmouseregion(mousePos)  # Draw dots following the cursor
             elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
                 print 'mousedown'
@@ -94,4 +107,5 @@ def main():
         pyg.display.flip()
 
 if __name__ == '__main__':
-    main()
+    pyg.init()
+    gamescreenmain()
