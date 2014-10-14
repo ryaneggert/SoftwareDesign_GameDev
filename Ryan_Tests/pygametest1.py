@@ -25,9 +25,24 @@ class GameBoard(object):
             pyg.draw.line(surface, (0,0,0), (self.webCX - diagOffset, self.webCY - diagOffset), (self.webCX + diagOffset, self.webCY + diagOffset), 5)
             pyg.draw.line(surface, (0,0,0), (self.webCX + diagOffset, self.webCY - diagOffset), (self.webCX - diagOffset, self.webCY + diagOffset), 5)
           
-        def getmouseregion(self, mouseLoc):
+        def getmouseregion(self, mousePLoc):
             # Both hover and click?
-            pyg.draw.circle(self.surface, (255,0,0), mouseLoc, 1, 0)
+            # pyg.draw.circle(self.surface, (255,0,0), mouseLoc, 1, 0)  # Trail of dots following mouse cursor
+            mouseR, mouseTheta = mousePLoc
+            ## Find sector of board ##
+
+            for i in xrange(4):
+                ring = i+1
+                if mouseR < ring * self.radincr:
+                    sR = ring
+                    break
+                sR = None
+            if sR == None:
+                sTheta = None
+            else:
+                sTheta = int(mouseTheta/45) + 1
+
+            return sR, sTheta
 
         def highlightregion(self, theta, radius, rb):
             if rb == 'r':
@@ -49,8 +64,6 @@ def mousetopolar(mouseLoc, webCenter):
     if mtheta < 0:
         mtheta += 360
     return mr, mtheta
-
-
 
 
 def gamescreenmain():
@@ -95,7 +108,7 @@ def gamescreenmain():
             elif event.type == MOUSEMOTION:     # Only update when mouse moves
                 mousePos = mx,my = pyg.mouse.get_pos()     # Current position of mouse cursor
                 mousePol = mousetopolar(mousePos, spiderweb.centerpoint)
-                print mousePol
+                print spiderweb.getmouseregion(mousePol)
                 # spiderweb.getmouseregion(mousePos)  # Draw dots following the cursor
             elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
                 print 'mousedown'
