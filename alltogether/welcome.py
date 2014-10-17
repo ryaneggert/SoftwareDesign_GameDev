@@ -110,9 +110,10 @@ def main():
                     print 'Rules'
                 if p2_button.pressed(mouse_pos):
                     print '2 Players'
-                    obj = button_gui.new_button()
+                    obj = button_gui.new_button(2)
                 if p3_button.pressed(mouse_pos):
                     print '3 Players'
+                    obj = button_gui.new_button(3)
                     
 if __name__ == '__main__':
     main()

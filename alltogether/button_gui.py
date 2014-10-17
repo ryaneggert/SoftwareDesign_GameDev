@@ -11,10 +11,12 @@ import pygame, Buttons, string, welcome
 # initialize the pygame module
 pygame.init()
 from pygame.locals import *
+import gamearea
 
 class new_button:
        
-    def __init__(self):
+    def __init__(self,num_players):
+        self.num_players = num_players
         self.main()
     
     #Create a display
@@ -80,9 +82,15 @@ class new_button:
         self.nextbutton.create_button(self.screen,(255,255,255), 650, 720, 150, 80, 0, "Play",(0, 0, 0))
         #               call function (surface, (R,G,B), x, y, length, height, width, text on button, text color)
         
-        pygame.draw.rect(self.screen, (255,255,255), (200, 240, 400, 80), 0)
-        pygame.draw.rect(self.screen, (255,255,255), (200, 480, 400, 80), 0)
-        pygame.display.flip() 
+        if self.num_players == 2:
+            pygame.draw.rect(self.screen, (255,255,255), (200, 240, 400, 80), 0)
+            pygame.draw.rect(self.screen, (255,255,255), (200, 480, 400, 80), 0)
+            pygame.display.flip() 
+            
+        if self.num_players == 3:
+            for i in range (200,600,150):
+                pygame.draw.rect(self.screen, (255,255,255), (200, i, 400, 80), 0)
+            pygame.display.flip() 
         
     # define a variable to control the main loop
     def main(self):
@@ -104,6 +112,7 @@ class new_button:
                         welcome.main()
                     elif self.nextbutton.pressed(pygame.mouse.get_pos()):
                         print "Play game!!!"
+                        gamearea.gamescreenmain(['a','b','c'])
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         pygame.quit()
@@ -112,5 +121,5 @@ class new_button:
 # run the main function only if this module is executed as the main script
 if __name__=="__main__":
     # call the main function
-    obj = new_button()
+    obj = new_button(3)
     #main()
