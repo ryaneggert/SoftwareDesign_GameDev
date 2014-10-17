@@ -53,7 +53,7 @@ def main():
     # Writes window title text
     pyg.init()
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
-    pyg.display.set_caption('Spider Tic-Tac-Toe')
+    pyg.display.set_caption('Spyder Tic-Tac-Toe')
     
     # Create and draw background on Surface
     background = pyg.Surface(screen.get_size()) # background is a surface
@@ -87,7 +87,7 @@ def main():
     
     # Display title text
     font = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 54)
-    text = font.render("Welcome to Spider Tic-Tac-Toe!", 1, (10, 10, 10))
+    text = font.render("Welcome to Spyder Tic-Tac-Toe!", 1, (10, 10, 10))
     textpos = text.get_rect()
     textpos.centerx = screen.get_rect().centerx
     screen.blit(text, textpos)
@@ -108,12 +108,15 @@ def main():
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
                     print 'Rules'
+                    # return
                 if p2_button.pressed(mouse_pos):
                     print '2 Players'
                     obj = button_gui.new_button(2)
+                    return
                 if p3_button.pressed(mouse_pos):
                     print '3 Players'
                     obj = button_gui.new_button(3)
+                    return
                     
 if __name__ == '__main__':
     main()

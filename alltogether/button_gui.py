@@ -73,7 +73,7 @@ class new_button:
         background_image = pygame.image.load("spiderweb.jpg")
         background_image = pygame.transform.scale(background_image,(800, 800))
         pygame.display.set_icon(background_image)
-        pygame.display.set_caption("minimal program")
+        pygame.display.set_caption("Spyder Tic-Tac-Toe")
         self.screen.blit(background_image,[0,0])
         # draw a rectangle (x,y,length,height) where upper left corner position = x,y and extends to the right (width,height)
         #pygame.draw.rect(screen, (255,255,255), (0, 0, 150, 80), 0)
@@ -82,15 +82,11 @@ class new_button:
         self.nextbutton.create_button(self.screen,(255,255,255), 650, 720, 150, 80, 0, "Play",(0, 0, 0))
         #               call function (surface, (R,G,B), x, y, length, height, width, text on button, text color)
         
-        if self.num_players == 2:
-            pygame.draw.rect(self.screen, (255,255,255), (200, 240, 400, 80), 0)
-            pygame.draw.rect(self.screen, (255,255,255), (200, 480, 400, 80), 0)
-            pygame.display.flip() 
-            
-        if self.num_players == 3:
-            for i in range (200,600,150):
-                pygame.draw.rect(self.screen, (255,255,255), (200, i, 400, 80), 0)
-            pygame.display.flip() 
+        # Using num_players creates appropriate number of text inputs fields
+        total_height = self.num_players * 200
+        for i in range (200,total_height,150):
+            pygame.draw.rect(self.screen, (255,255,255), (200, i, 400, 80), 0)
+        pygame.display.flip() 
         
     # define a variable to control the main loop
     def main(self):
@@ -110,9 +106,11 @@ class new_button:
                     if self.backbutton.pressed(pygame.mouse.get_pos()):
                         print "Previous page!"
                         welcome.main()
+                        return
                     elif self.nextbutton.pressed(pygame.mouse.get_pos()):
                         print "Play game!!!"
                         gamearea.gamescreenmain(['a','b','c'])
+                        return
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         pygame.quit()

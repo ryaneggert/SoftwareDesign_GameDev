@@ -26,7 +26,7 @@ class GameBoard(object):
             pyg.draw.line(surface, (0,0,0), (self.webCX, self.webCY - axisLen), (self.webCX, self.webCY + axisLen), 3)
             pyg.draw.line(surface, (0,0,0), (self.webCX - diagOffset, self.webCY - diagOffset), (self.webCX + diagOffset, self.webCY + diagOffset), 5)
             pyg.draw.line(surface, (0,0,0), (self.webCX + diagOffset, self.webCY - diagOffset), (self.webCX - diagOffset, self.webCY + diagOffset), 5)
-            text = robotocondensedL.render("Spider Tic-Tac-Toe", 1, (10, 10, 10))
+            text = robotocondensedL.render("Spyder Tic-Tac-Toe", 1, (10, 10, 10))
             textpos = text.get_rect()
             textpos.centerx = surface.get_rect().centerx
             surface.blit(text, textpos)
@@ -95,7 +95,7 @@ def mousetopolar(mouseLoc, webCenter):
 
 def gamescreenmain(names):
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
-    pyg.display.set_caption('Spider Tic-Tac-Toe')
+    pyg.display.set_caption('Spyder Tic-Tac-Toe')
     
     # Create surface
     background = pyg.Surface(screen.get_size()) # background is a surface
