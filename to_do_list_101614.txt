@@ -7,6 +7,7 @@ List:
         Nested infinite loops aren't good (in button_gui.ask). We're missing out on button, exit, mouse, etc. inputs.
         Click (or hover) over text boxes to input.
         Also, calling main() from an __init__ is kinda weird. Consider having __init__ only initialize values and attributes. Often main() is what contains the line of code which initializes an object (not the other way round).
+        Make shift key work (capitalization)
 
     gamearea
         Buttons: Add some (e.g. 'quit', 'main menu' OR 'back')
