@@ -93,7 +93,7 @@ def mousetopolar(mouseLoc, webCenter):
     return mr, mtheta
 
 
-def gamescreenmain():
+def gamescreenmain(names):
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
     pyg.display.set_caption('Spider Tic-Tac-Toe')
     
@@ -113,6 +113,8 @@ def gamescreenmain():
     sectorHist = [(None,None), (None,None)]
     lastsectorHist = []
     # i = 0
+    player = 0
+
     while True:
         # i +=1
         for event in pyg.event.get():
@@ -133,6 +135,7 @@ def gamescreenmain():
                 lClick = pyg.mouse.get_pressed()[0] # Status of left mouse button
                 if lClick == 1:
                     print 'Left Click'
+                    player +=1
         background.fill((250, 250, 250))
         spiderweb.draw(background)
         if sectorHist[1] != (None, None):
@@ -149,10 +152,17 @@ def gamescreenmain():
         #         lastsectorHist = sectorHist
         #     # print spiderweb.sectorcenter(sectorHist[1])
 
+        # Draw player name
+        # robotocondensedL.render()
+        # text = robotocondensedL.render("Spider Tic-Tac-Toe", 1, (10, 10, 10))
+        # textpos = text.get_rect()
+        # textpos.centerx = surface.get_rect().centerx
+        # surface.blit(text, textpos)
+        
         screen.blit(background, (0, 0)) # Blit background
         pyg.display.flip()
 
 
 if __name__ == '__main__':
     pyg.init()
-    gamescreenmain()
+    gamescreenmain(['Boris Schmidt', 'Heinrich Jones', 'Bjorn McDonald'])
