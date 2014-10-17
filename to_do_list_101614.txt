@@ -1,0 +1,22 @@
+List:
+    
+    Rules page (+ attach to welcome.py)
+
+    button_gui
+        Rectangles should become buttons.
+        Nested infinite loops aren't good (in button_gui.ask). We're missing out on button, exit, mouse, etc. inputs.
+        Click (or hover) over text boxes to input.
+        Also, calling main() from an __init__ is kinda weird. Consider having __init__ only initialize values and attributes. Often main() is what contains the line of code which initializes an object (not the other way round).
+
+    gamearea
+        Buttons: Add some (e.g. 'quit', 'main menu' OR 'back')
+        Add player names, icons.
+        Make it MVC-structure.
+            Restructure somewhat and begin to add gameplay mechanics (icon placement, player switching)
+
+    Topics of discussion:
+        "Spyder" Tic-Tac-Toe: Good name? Bad name? Name?
+
+
+    Ryan's savvy business advice:
+    "Butotn" could be a good name for a tech start-up.
