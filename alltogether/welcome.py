@@ -10,6 +10,7 @@ Sourced from Ryan Eggert's pygametest1.py
 import pygame as pyg
 from pygame.locals import *
 import button_gui
+# import rules # Throwing errors because when you import rules you also import Button again
 
 """Button class sourced from Simon H. Larsen, http://lagusan.com/button-drawer-python-2-6/"""
 
@@ -108,7 +109,8 @@ def main():
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
                     print 'Rules'
-                    # return
+                    rules.main()                    
+                    return
                 if p2_button.pressed(mouse_pos):
                     print '2 Players'
                     obj = button_gui.new_button(2)
