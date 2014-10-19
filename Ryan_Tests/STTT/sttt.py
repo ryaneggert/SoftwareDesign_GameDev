@@ -63,7 +63,7 @@ class GameController(object):
 
 class GameModel(object):
     """docstring for GameModel"""
-    def __init__(self):
+    def __init__(self, centerPoint, radiusIncrement):
         super(GameModel, self).__init__()
         self.centerpoint = self.webCX, self.webCY = centerPoint
         self.radincr = radiusIncrement
