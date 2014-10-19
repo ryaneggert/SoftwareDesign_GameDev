@@ -105,7 +105,7 @@ class new_button:
                 elif event.type == MOUSEBUTTONDOWN:
                     if self.backbutton.pressed(pygame.mouse.get_pos()):
                         print "Previous page!"
-                        welcome.main()
+                        welcome.welcome_main()
                         return
                     elif self.nextbutton.pressed(pygame.mouse.get_pos()):
                         print "Play game!!!"
