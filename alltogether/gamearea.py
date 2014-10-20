@@ -33,6 +33,7 @@ class GameBoard(object):
 
           
         def getmousesector(self, mousePLoc):
+            """Takes mouse polar position and outputs the sector of the game board which the mouse is in."""
             # Both hover and click?
             # pyg.draw.circle(self.surface, (255,0,0), mouseLoc, 1, 0)  # Trail of dots following mouse cursor
             mouseR, mouseTheta = mousePLoc
@@ -47,7 +48,8 @@ class GameBoard(object):
                 sTheta = None
             else:
                 sTheta = int(mouseTheta/45) + 1
-            return sR, sTheta
+            sector = sR, sTheta
+            return sector
 
 
         def sectorcenter(self, sector):
