@@ -5,20 +5,9 @@ Created on Fri Oct 17 14:11:12 2014
 @author: Meg McCauley
 """
 
-"""
-Spyder Tic-Tac-Toe
-
-Objective: Get four of your color bugs in a row to win. There are three ways to do this.
-1. Straight
-Place one bug in the center ring and three more in the same column up to the outer ring.
-2. Curve
-Place one bug anywhere and place three more in the same level ring.
-3. Spiral
-The most complex (and sneaky) way to win. One bug must be in the center ring. From here, place
-your next three bugs up and over one, in either direction, until you reach the outer ring.
-"""
 import pygame as pyg
 import welcome
+from rules_text import rules_list
 
 from pygame.locals import *
 
@@ -45,7 +34,8 @@ def rules_main():
     screen.blit(main,main_pos)
     pyg.display.flip()
     
-    default_font = pyg.font.Font('fonts/RobotoCondensed-Light.ttf', 25) # Bring in the default font
+    default_font = pyg.font.Font('fonts/RobotoCondensed-Light.ttf', 18) # Bring in the default font
+    title_font = pyg.font.Font('fonts/RobotoCondensed-Light.ttf', 25)
     
     # Transparent Rectangle
     trans = pyg.Surface((600,600)) #starts at (0,0) and builds (width,height)
@@ -53,12 +43,29 @@ def rules_main():
     trans.fill((255,255,255))
     screen.blit(trans,(100,150)) # refreshes the screen starting at (right,down)
     
-    # Objective Text
-    objective = default_font.render("Objective: Get four of your color bugs in a row to win.",1,(0,0,0))
-    objective_pos = objective.get_rect()
-    objective_pos.left = 125
-    objective_pos.top= 175
-    screen.blit(objective, objective_pos)
+    # For loop to wrap text from rules_text.py
+    
+#    objective = default_font.render("Objective: Get four of your color bugs in a row to win.",1,(0,0,0))
+#    objective_pos = objective.get_rect()
+#    objective_pos.left = 125    # Stay the same
+#    objective_pos.top= 175      # Change with loop
+#    screen.blit(objective, objective_pos)   # Do every loop
+#    
+    text_height = 100
+    
+    for i in range(len(rules_list)):
+        if (rules_list[i][1]) == 0:
+            objective = default_font.render(rules_list[i][0], 1, (0,0,0))
+            objective_pos = objective.get_rect()
+            text_height += 30
+            objective_pos.top = text_height
+        else:
+            objective = title_font.render(rules_list[i][0], 1, (0,0,0))
+            objective_pos = objective.get_rect()
+            text_height += 50
+            objective_pos.top = text_height
+        objective_pos.left = 125    # Stay the same
+        screen.blit(objective, objective_pos)   # Do every loop
     pyg.display.flip()
     
     # Rule 1 Text

@@ -5,7 +5,8 @@ List:
 	[x] Create a text box and add rules
 	[ ] Add color to game grids (x3) using some Adobe product (Photoshop?) to show winning cases
 	[ ] Main menu text larger on button
-	[ ] Wrap text
+	[x] Wrap text (like a caveman)
+	[ ] Pro: Add scrolling
 
     button_gui
         Rectangles should become buttons.
@@ -21,7 +22,7 @@ List:
             Restructure somewhat and begin to add gameplay mechanics (icon placement, player switching)
 
     Topics of discussion:
-        "Spyder" Tic-Tac-Toe: Good name? Bad name? Name?
+        "Spyder" Tic-Tac-Toe: Good name? Bad name? Name? Good name :)
 
 
     Ryan's savvy business advice:
