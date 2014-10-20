@@ -19,10 +19,10 @@ your next three bugs up and over one, in either direction, until you reach the o
 """
 import pygame as pyg
 import welcome
-from welcome import Button #Activates the button class
+
 from pygame.locals import *
 
-def main():
+def rules_main():
     
     pyg.init()
     pyg.font.init()
@@ -38,12 +38,34 @@ def main():
     pyg.display.flip()
     
     # Create the main menu button
-    main_button = Button()
+    main_button = welcome.Button()
     main = main_button.create_button(background_image,(255,255,255), 0, 0, 150, 80, 0, "Main Menu",(0, 0, 0))
     main_pos = main.get_rect()
     main_pos.centerx = screen.get_rect().centerx        
     screen.blit(main,main_pos)
     pyg.display.flip()
+    
+    default_font = pyg.font.Font('fonts/RobotoCondensed-Light.ttf', 25) # Bring in the default font
+    
+    # Transparent Rectangle
+    trans = pyg.Surface((600,600)) #starts at (0,0) and builds (width,height)
+    trans.set_alpha(200) # 0 is invisible, 255 is solid, 128 is recommended
+    trans.fill((255,255,255))
+    screen.blit(trans,(100,150)) # refreshes the screen starting at (right,down)
+    
+    # Objective Text
+    objective = default_font.render("Objective: Get four of your color bugs in a row to win.",1,(0,0,0))
+    objective_pos = objective.get_rect()
+    objective_pos.left = 125
+    objective_pos.top= 175
+    screen.blit(objective, objective_pos)
+    pyg.display.flip()
+    
+    # Rule 1 Text
+    
+    # Rule 2 Text
+    
+    # Rule 3 Text
     
     # Checking for events (quitting, pressing buttons, etc.)
     while True:
@@ -60,7 +82,10 @@ def main():
                 mouse_pos = pyg.mouse.get_pos()
                 if main_button.pressed(mouse_pos):
                     print "Main Menu"
-                    welcome.main()
+                    welcome.welcome_main()
                     return
 
-main()
+if __name__ == '__main__':
+    from welcome import Button #Activates the button class    
+    pyg.init()
+    rules_main()

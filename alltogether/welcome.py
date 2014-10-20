@@ -10,7 +10,7 @@ Sourced from Ryan Eggert's pygametest1.py
 import pygame as pyg
 from pygame.locals import *
 import button_gui
-# import rules # Throwing errors because when you import rules you also import Button again
+import rules # Throwing errors because when you import rules you also import Button again
 
 """Button class sourced from Simon H. Larsen, http://lagusan.com/button-drawer-python-2-6/"""
 
@@ -49,7 +49,7 @@ class Button:
             return True
         else: return False
 
-def main():
+def welcome_main():
     
     # Writes window title text
     pyg.init()
@@ -109,7 +109,7 @@ def main():
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
                     print 'Rules'
-                    rules.main()                    
+                    rules.rules_main()                    
                     return
                 if p2_button.pressed(mouse_pos):
                     print '2 Players'
@@ -121,4 +121,4 @@ def main():
                     return
                     
 if __name__ == '__main__':
-    main()
+   welcome_main()

@@ -1,9 +1,11 @@
 List:
     
     Rules page (+ attach to welcome.py) [Meg's working on it]
-	Fix broken functionality jumping from main menu to rules (due to importing of class Button)
-	Create a text box and add rules
-	Get pictures of game grid (x3) from Ryan and add color using some Adobe product to show winning situations	
+	[x] Fix broken functionality jumping from main menu to rules (due to importing of class Button)
+	[x] Create a text box and add rules
+	[ ] Add color to game grids (x3) using some Adobe product (Photoshop?) to show winning cases
+	[ ] Main menu text larger on button
+	[ ] Wrap text
 
     button_gui
         Rectangles should become buttons.
