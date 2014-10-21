@@ -11,8 +11,8 @@ class GameController(object):
 
     def __init__(self):
         super(GameController, self).__init__()
-        self.mousePos = None
-        self.mousePolPos = None
+        self.mousePos = (None, None)
+        self.mousePolPos = (None, None)
 
     def exitevents(self):
         """Checks for exit events"""
@@ -61,8 +61,8 @@ class GameController(object):
         mtheta = math.degrees(math.atan2(rmY,rmX))
         if mtheta < 0:
             mtheta += 360
-        mousePolPos = (mr, mtheta)
-        return mousePolPos
+        self.mousePolPos = (mr, mtheta)
+        return self.mousePolPos
 
 
 class GameModel(object):
@@ -76,7 +76,9 @@ class GameModel(object):
         
     def getmousesector(self, mousePLoc):
         """Takes mouse polar position and outputs the sector of the game board which the mouse is in."""
-        # Both hover and click?
+        # Both hover and click?\
+        if mousePLoc == (None, None):
+            return mousePLoc
         mouseR, mouseTheta = mousePLoc
         # Find sector of board #
         for i in xrange(4):
@@ -90,7 +92,7 @@ class GameModel(object):
         else:
             sTheta = int(mouseTheta/45) + 1
         sector = (sR, sTheta)
-        return 
+        return sector
 
 
     def sectorcenter(self, sector):
@@ -131,6 +133,7 @@ class GameView(object):
         # Create global fonts
         self.robotocondensedL = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 36)
         self.drawweb()
+        pyg.display.flip
 
     def drawweb(self):
         """Draws only the web and title text"""
@@ -150,7 +153,12 @@ class GameView(object):
         textpos.centerx = self.background.get_rect().centerx
         self.background.blit(text, textpos)
         self.screen.blit(self.background, (0,0))
-        pyg.display.flip()
+        
+
+    def drawhovericon(self, sectorcenter, player):
+        """Given the cartesian center of a sector of the gameboard, draws a semitransparent icon over that sector """
+        pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
+
         
 def stttmain():
     pyg.init()
@@ -164,11 +172,24 @@ def stttmain():
         quit = TTTControl.exitevents()
         keys = TTTControl.keyboardevents()
         mousepos, mousePolPos, mouseclick = TTTControl.mouseevents(TTTModel)
-
+        # If we want to quit, then do so.
         if quit:
             print "Quitting"
             pyg.quit()
             return
+        # Do some game thinking
+        TTTView.drawweb()
+        mouseSector = TTTModel.getmousesector(mousePolPos)
+        if mouseSector != (None,None):
+            mouseSectorCenter = TTTModel.sectorcenter(mouseSector)
+            TTTView.drawhovericon(mouseSectorCenter,1)
+            
+
+        TTTView.screen.blit(TTTView.background, (0, 0)) # Blit background  # PUT NEXT TWO LINES INTO VIEW?
+        pyg.display.flip()
+
+
+
 
 if __name__ == '__main__':
     stttmain()
