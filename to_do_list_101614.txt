@@ -1,5 +1,11 @@
 List:
     
+    To Do 10-21:
+	[ ] Create matrix to hold board status
+	[ ] Create matrix for each player to hold positions
+	[ ] Create winning conditions (and pictures on rules page)
+	[ ] Winning screen.
+	
     Rules page (+ attach to welcome.py) [Meg's working on it]
 	[x] Fix broken functionality jumping from main menu to rules (due to importing of class Button)
 	[x] Create a text box and add rules
