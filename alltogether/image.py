@@ -21,10 +21,10 @@ red_bug = pyg.image.load('redbug.png')
 coord = width,height = (50,50)
 new_red_bug = pyg.transform.scale(red_bug, (coord))
 screen.blit(new_red_bug,(0,0))
+pyg.display.flip()
 
-# Wanna make it transparent? We're working on it. Here's how you do it with rectangles.
-
-#trans = pyg.Surface((600,600)) #starts at (0,0) and builds (width,height)
-#trans.set_alpha(215) # 0 is invisible, 255 is solid, 128 is recommended
-#trans.fill((60,60,60))
-#screen.blit(trans,(100,150)) # refreshes the screen starting at (right,down)
+# Wanna make it transparent? We're working on it. Here's how.
+trans_red_bug = pyg.Surface.convert_alpha(new_red_bug)
+trans_red_bug.set_alpha(128)
+screen.blit(trans_red_bug,(100,100))
+pyg.display.flip()
