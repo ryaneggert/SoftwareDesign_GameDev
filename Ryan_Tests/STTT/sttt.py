@@ -85,7 +85,15 @@ class GameModel(object):
         self.setcurrentplayer(self.currentplayerindex)
 
         # Instantiate game array
-        self.boardarray = []
+        ring_none = []
+        full_board = []
+        for num in range(8):
+            ring_none.append(None)
+        # print ring_none
+        for num in range(4):
+            full_board.append(ring_none)
+        # print full_board
+        self.boardarray = full_board
 
     def setcurrentplayer(self, index):
         """Returns a player object given an index (0,1,2)."""
@@ -143,7 +151,7 @@ class GameModel(object):
     def placepiece(self, sector):
         """If player clicks, place their icon in the gameboard array and their player array"""
         sR, sTheta = sector
-        if self.boardarray[sR-1][sTheta-1] != None:
+        if self.boardarray[sR-1][sTheta-1] == None:
             # Then place piece
             self.boardarray[sR-1][sTheta-1] = self.currentplayer.number # Update the gameboard array.
             self.currentplayer.addposition(sector)  # Add move to this Player's position list
@@ -175,7 +183,6 @@ class GameView(object):
         pyg.display.flip
 
         # Set Player Icons
-
 
     def drawweb(self):
         """Draws only the web and title text"""
@@ -213,6 +220,11 @@ class GameView(object):
         new_image = pyg.transform.scale(image, (coord))
         self.background.blit(new_image, sectorcenter)
 
+    def drawplayername(self, name):
+        # name = players[player-1]
+        self.background.blit(self.robotocondensedL.render(name, True, (0,0,255)), (650,730))
+        pass
+
     def drawgamearray(self):
         """Draws all of the pieces on the board."""
         pass
@@ -232,11 +244,11 @@ class Player(object):
 
     def addposition(self, sector):
         """Add a position to this Player's list of positions"""
-        self.positions.append()
+        self.positions.append(sector)
 
     def didwin(self):
         """Checks this Player's positions to see if he/she has won."""
-        pass
+        return 0
                         
 
         
@@ -256,32 +268,33 @@ def stttmain(playerNames):
         if quit:
             print "Quitting"
             pyg.quit()
+            print TTTModel.boardarray
             return
         # Do some game thinking
         TTTView.drawweb()
         mouseSector = TTTModel.getmousesector(mousePolPos)
-        print TTTModel.currentplayer.name
+        # print TTTModel.currentplayer.name
         if mouseSector != (None,None):
             mouseSectorCenter = TTTModel.sectorcenter(mouseSector)
             # TTTView.drawhovericon(mouseSectorCenter,1)
             TTTView.place_bug(TTTModel.currentplayer.number,mouseSectorCenter)
-
+            TTTView.drawplayername(TTTModel.currentplayer.name)
             if mouseclick == 'Left':
-                # won = TTTModel.placepiece(mouseSector)
-                if won:
-                    # Winning sequence
-                    # winner = TTTModel.currentplayer
-                    # print '%s has won!' % winner.name
-                    # return, etc.
-                TTTModel.nextplayer()   # For debugging purposes     
+                won = TTTModel.placepiece(mouseSector)
+                # if won:
+                #     # Winning sequence
+                #     # winner = TTTModel.currentplayer
+                #     # print '%s has won!' % winner.name
+                #     # return, etc.
+                #     pass
+                # TTTModel.nextplayer()   # For debugging purposes     
 
 
         # Display
 
         TTTView.screen.blit(TTTView.background, (0, 0)) # Blit background  # PUT NEXT TWO LINES INTO VIEW?
+        
         pyg.display.flip()
-
-
 
 
 if __name__ == '__main__':
