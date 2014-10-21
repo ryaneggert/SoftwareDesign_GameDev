@@ -85,13 +85,11 @@ class GameModel(object):
         self.setcurrentplayer(self.currentplayerindex)
 
         # Instantiate game array
-        ring_none = []
         full_board = []
-        for num in range(8):
-            ring_none.append(None)
-        # print ring_none
         for num in range(4):
-            full_board.append(ring_none)
+            full_board.append([])
+            for num2 in range(8):
+                full_board[num].append(None)
         # print full_board
         self.boardarray = full_board
 
@@ -160,6 +158,7 @@ class GameModel(object):
                 self.nextplayer()   # Now it's the next person's turn
             return won
         else:
+            #quit()
             print "This space is taken"     # For debugging.
 
 
@@ -207,7 +206,8 @@ class GameView(object):
         """Given the cartesian center of a sector of the gameboard, draws a semitransparent icon over that sector """
         pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
 
-    def place_bug(self,player, sectorcenter):
+    def place_bug(self,player,sectorcenter):
+        # Changes color of dinosaur based on which players turn it is
         if player == 1:
             image = pyg.image.load('redbug.png')
         elif player == 2:
@@ -258,7 +258,6 @@ class Player(object):
             if appear == 4:
                 print self.name + ' won with a straight!'    # Debuggging
                 return 1                    
-
         
 def stttmain(playerNames):
     pyg.init()
@@ -276,7 +275,7 @@ def stttmain(playerNames):
         if quit:
             print "Quitting"
             pyg.quit()
-            print TTTModel.boardarray
+            #print TTTModel.boardarray
             return
         # Do some game thinking
         TTTView.drawweb()
