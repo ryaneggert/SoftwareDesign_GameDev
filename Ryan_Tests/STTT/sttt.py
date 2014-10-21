@@ -67,13 +67,15 @@ class GameController(object):
 
 class GameModel(object):
     """docstring for GameModel"""
-    def __init__(self, centerPoint, radiusIncrement):
+    def __init__(self, centerPoint, radiusIncrement, players):
         super(GameModel, self).__init__()
         self.centerpoint = self.webCX, self.webCY = centerPoint
         self.radincr = radiusIncrement
         self.webstats = [self.centerpoint]
-
-        
+        self.numplayers = len(players)
+        self.currentplayer = 0
+        self.playernames = players
+     
     def getmousesector(self, mousePLoc):
         """Takes mouse polar position and outputs the sector of the game board which the mouse is in."""
         # Both hover and click?\
@@ -93,7 +95,6 @@ class GameModel(object):
             sTheta = int(mouseTheta/45) + 1
         sector = (sR, sTheta)
         return sector
-
 
     def sectorcenter(self, sector):
         """Calculates and outputs the geometric center of the input sector of the gameboard in pygame cartesian coordinates."""
@@ -116,6 +117,9 @@ class GameModel(object):
         screenY = (self.webCY - avgY)
         screenSectorCoords = (int(screenX),int(screenY))
         return screenSectorCoords
+
+    def updategamearray(self, player, sector):
+        pass
 
 
 class GameView(object):
@@ -154,16 +158,15 @@ class GameView(object):
         self.background.blit(text, textpos)
         self.screen.blit(self.background, (0,0))
         
-
     def drawhovericon(self, sectorcenter, player):
         """Given the cartesian center of a sector of the gameboard, draws a semitransparent icon over that sector """
         pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
 
         
-def stttmain():
+def stttmain(playerNames):
     pyg.init()
 
-    TTTModel = GameModel((400,400), 73)
+    TTTModel = GameModel((400,400), 73, playerNames)
     TTTView = GameView(TTTModel.centerpoint, TTTModel.radincr)
     TTTControl = GameController()
 
@@ -183,6 +186,7 @@ def stttmain():
         if mouseSector != (None,None):
             mouseSectorCenter = TTTModel.sectorcenter(mouseSector)
             TTTView.drawhovericon(mouseSectorCenter,1)
+
             
         TTTView.screen.blit(TTTView.background, (0, 0)) # Blit background  # PUT NEXT TWO LINES INTO VIEW?
         pyg.display.flip()
@@ -191,4 +195,4 @@ def stttmain():
 
 
 if __name__ == '__main__':
-    stttmain()
+    stttmain(['Abi', 'Meg', 'Ryan'])
