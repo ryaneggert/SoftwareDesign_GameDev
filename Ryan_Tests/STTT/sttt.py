@@ -184,7 +184,6 @@ def stttmain():
             mouseSectorCenter = TTTModel.sectorcenter(mouseSector)
             TTTView.drawhovericon(mouseSectorCenter,1)
             
-
         TTTView.screen.blit(TTTView.background, (0, 0)) # Blit background  # PUT NEXT TWO LINES INTO VIEW?
         pyg.display.flip()
 
