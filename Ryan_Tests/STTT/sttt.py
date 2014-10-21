@@ -73,8 +73,30 @@ class GameModel(object):
         self.radincr = radiusIncrement
         self.webstats = [self.centerpoint]
         self.numplayers = len(players)
-        self.currentplayer = 0
+        self.currentplayerindex = 0
+        
         self.playernames = players
+        playerobjs = []
+        i=0
+        for name in players:
+            i += 1
+            playerobjs.append(Player(name, i))
+        self.players = playerobjs
+        self.setcurrentplayer(self.currentplayerindex)
+
+        # Instantiate game array
+        self.boardarray = []
+
+    def setcurrentplayer(self, index):
+        """Returns a player object given an index (0,1,2)."""
+        self.currentplayer = self.players[index]
+
+    def nextplayer(self):
+        """Increments the currentplayerindex and sets the currentplayer to be the next player."""
+        currentindex = self.currentplayerindex
+        currentindex += 1
+        self.currentplayerindex = currentindex % self.numplayers
+        self.setcurrentplayer(self.currentplayerindex)
      
     def getmousesector(self, mousePLoc):
         """Takes mouse polar position and outputs the sector of the game board which the mouse is in."""
@@ -118,18 +140,28 @@ class GameModel(object):
         screenSectorCoords = (int(screenX),int(screenY))
         return screenSectorCoords
 
-    def updategamearray(self, player, sector):
-        pass
+    def placepiece(self, sector):
+        """If player clicks, place their icon in the gameboard array and their player array"""
+        sR, sTheta = sector
+        if self.boardarray[sR-1][sTheta-1] != None:
+            # Then place piece
+            self.boardarray[sR-1][sTheta-1] = self.currentplayer.number # Update the gameboard array.
+            self.currentplayer.addposition(sector)  # Add move to this Player's position list
+            self.nextplayer()   # Now it's the next person's turn
+        else:
+            print "This space is taken"     # For debugging.
 
 
 class GameView(object):
     """docstring for GameView"""
     def __init__(self, centerpoint, radiusIncrement):
         super(GameView, self).__init__()
+        # Gameboard parameters
         self.centerpoint = self.webCX, self.webCY = centerpoint
         self.radincr = radiusIncrement
         self.screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
         pyg.display.set_caption('Spyder Tic-Tac-Toe')
+
         # Create surface
         background = pyg.Surface(self.screen.get_size()) # background is a surface
         self.background = background.convert()
@@ -138,6 +170,9 @@ class GameView(object):
         self.robotocondensedL = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 36)
         self.drawweb()
         pyg.display.flip
+
+        # Set Player Icons
+
 
     def drawweb(self):
         """Draws only the web and title text"""
@@ -162,6 +197,45 @@ class GameView(object):
         """Given the cartesian center of a sector of the gameboard, draws a semitransparent icon over that sector """
         pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
 
+    def place_bug(self,player, sectorcenter):
+        if player == 1:
+            image = pyg.image.load('redbug.png')
+        elif player == 2:
+            image = pyg.image.load('bluebug.png')
+        elif player == 3:
+            image = pyg.image.load('purplebug.png')
+        rect = image.get_rect()
+        rect_coord = rect_x, rect_y = (rect.centerx, rect.centery)
+        coord = width,height = (50,50)
+        new_image = pyg.transform.scale(image, (coord))
+        self.background.blit(new_image, sectorcenter)
+
+    def drawgamearray(self):
+        """Draws all of the pieces on the board."""
+        pass
+
+
+class Player(object):
+    """docstring for Player"""
+    def __init__(self, name, number):
+        super(Player, self).__init__()
+        self.name = name
+        self.number = number    # e.g. 1, 2, or 3
+        self.positions = []     # Player array
+
+    def setimage(self, imagefilename):
+        """Given a filename, sets this Player's icon/image."""
+        self.image = pyg.image.load(imagefilename)
+
+    def addposition(self, sector):
+        """Add a position to this Player's list of positions"""
+        self.positions.append()
+
+    def didwin(self):
+        """Checks this Player's positions to see if he/she has won."""
+        pass
+                        
+
         
 def stttmain(playerNames):
     pyg.init()
@@ -183,11 +257,21 @@ def stttmain(playerNames):
         # Do some game thinking
         TTTView.drawweb()
         mouseSector = TTTModel.getmousesector(mousePolPos)
+        print TTTModel.currentplayer.name
         if mouseSector != (None,None):
             mouseSectorCenter = TTTModel.sectorcenter(mouseSector)
-            TTTView.drawhovericon(mouseSectorCenter,1)
+            # TTTView.drawhovericon(mouseSectorCenter,1)
+            TTTView.place_bug(TTTModel.currentplayer.number,mouseSectorCenter)
 
-            
+            if mouseclick == 'Left':
+                # placed = TTTModel.placepiece(mouseSector)
+                TTTModel.nextplayer()
+
+        
+
+
+        # Display
+
         TTTView.screen.blit(TTTView.background, (0, 0)) # Blit background  # PUT NEXT TWO LINES INTO VIEW?
         pyg.display.flip()
 
