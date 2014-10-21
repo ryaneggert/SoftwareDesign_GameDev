@@ -147,7 +147,10 @@ class GameModel(object):
             # Then place piece
             self.boardarray[sR-1][sTheta-1] = self.currentplayer.number # Update the gameboard array.
             self.currentplayer.addposition(sector)  # Add move to this Player's position list
-            self.nextplayer()   # Now it's the next person's turn
+            won = self.currentplayer.didwin()
+            if not won:
+                self.nextplayer()   # Now it's the next person's turn
+            return won
         else:
             print "This space is taken"     # For debugging.
 
@@ -264,10 +267,13 @@ def stttmain(playerNames):
             TTTView.place_bug(TTTModel.currentplayer.number,mouseSectorCenter)
 
             if mouseclick == 'Left':
-                # placed = TTTModel.placepiece(mouseSector)
-                TTTModel.nextplayer()
-
-        
+                # won = TTTModel.placepiece(mouseSector)
+                if won:
+                    # Winning sequence
+                    # winner = TTTModel.currentplayer
+                    # print '%s has won!' % winner.name
+                    # return, etc.
+                TTTModel.nextplayer()   # For debugging purposes     
 
 
         # Display
