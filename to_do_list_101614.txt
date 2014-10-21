@@ -3,10 +3,14 @@ List:
     Rules page (+ attach to welcome.py) [Meg's working on it]
 	[x] Fix broken functionality jumping from main menu to rules (due to importing of class Button)
 	[x] Create a text box and add rules
-	[ ] Add color to game grids (x3) using some Adobe product (Photoshop?) to show winning cases
-	[ ] Main menu text larger on button
+	[ ] Add color to game grids (x3) using some Adobe product (Photoshop?) to show winning
+	[no] Main menu text larger on button
 	[x] Wrap text (like a caveman)
 	[ ] Pro: Add scrolling
+
+    In a perfect world full of extra time,
+	[ ] Scale the bugggss based on which ring they live. Inner ring makes baby bugs, outer makes BIG bugs.
+	[ ] Make them rotate based on their angle
 
     button_gui
         Rectangles should become buttons.
