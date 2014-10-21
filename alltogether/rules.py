@@ -28,7 +28,7 @@ def rules_main():
     
     # Create the main menu button
     main_button = welcome.Button()
-    main = main_button.create_button(background_image,(255,255,255), 0, 0, 150, 80, 0, "Main Menu",(0, 0, 0))
+    main = main_button.create_button(background_image,(60,60,60), 0, 0, 150, 80, 0, "Main Menu",(255,255,255))
     main_pos = main.get_rect()
     main_pos.centerx = screen.get_rect().centerx        
     screen.blit(main,main_pos)
@@ -39,40 +39,28 @@ def rules_main():
     
     # Transparent Rectangle
     trans = pyg.Surface((600,600)) #starts at (0,0) and builds (width,height)
-    trans.set_alpha(200) # 0 is invisible, 255 is solid, 128 is recommended
-    trans.fill((255,255,255))
+    trans.set_alpha(215) # 0 is invisible, 255 is solid, 128 is recommended
+    trans.fill((60,60,60))
     screen.blit(trans,(100,150)) # refreshes the screen starting at (right,down)
     
     # For loop to wrap text from rules_text.py
     
-#    objective = default_font.render("Objective: Get four of your color bugs in a row to win.",1,(0,0,0))
-#    objective_pos = objective.get_rect()
-#    objective_pos.left = 125    # Stay the same
-#    objective_pos.top= 175      # Change with loop
-#    screen.blit(objective, objective_pos)   # Do every loop
-#    
     text_height = 100
     
     for i in range(len(rules_list)):
-        if (rules_list[i][1]) == 0:
-            objective = default_font.render(rules_list[i][0], 1, (0,0,0))
+        if (rules_list[i][1]) == 0:     # Is this body text? Make the font and spacing bigger
+            objective = default_font.render(rules_list[i][0], 1, (255,255,255))
             objective_pos = objective.get_rect()
             text_height += 30
             objective_pos.top = text_height
-        else:
-            objective = title_font.render(rules_list[i][0], 1, (0,0,0))
+        else:   # Is this title text? Make the font and spacing bigger
+            objective = title_font.render(rules_list[i][0], 1, (255,255,255))
             objective_pos = objective.get_rect()
             text_height += 50
             objective_pos.top = text_height
         objective_pos.left = 125    # Stay the same
         screen.blit(objective, objective_pos)   # Do every loop
     pyg.display.flip()
-    
-    # Rule 1 Text
-    
-    # Rule 2 Text
-    
-    # Rule 3 Text
     
     # Checking for events (quitting, pressing buttons, etc.)
     while True:

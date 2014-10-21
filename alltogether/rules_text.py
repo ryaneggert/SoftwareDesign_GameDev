@@ -13,7 +13,7 @@ and the second element indicates 0 or 1 for default_font or title_font
 """
 
 rules_list = [('Objective',1),
-              ('Get four of your color bugs in a row to win. There are three ways to do this.',0),
+              ('Get four of the bugs (of your color) in a row to win. There are three ways to do this.',0),
               ('1. Straight',1),
               ('Place one bug in the center ring and three more in the same column up to the',0),
               ('outer ring.',0),
