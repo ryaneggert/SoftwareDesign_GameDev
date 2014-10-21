@@ -237,6 +237,8 @@ class Player(object):
         self.name = name
         self.number = number    # e.g. 1, 2, or 3
         self.positions = []     # Player array
+        self.thetas = []
+        self.radii = []
 
     def setimage(self, imagefilename):
         """Given a filename, sets this Player's icon/image."""
@@ -245,6 +247,8 @@ class Player(object):
     def addposition(self, sector):
         """Add a position to this Player's list of positions"""
         self.positions.append(sector)
+        self.thetas.append(sector[1])   # For straight winning condition
+        self.radii.append(sector[0])    # For curved winning condition
 
     def didwin(self):
         """Checks this Player's positions to see if he/she has won."""
