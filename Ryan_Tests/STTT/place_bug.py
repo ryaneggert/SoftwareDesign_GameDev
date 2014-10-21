@@ -17,7 +17,7 @@ from pygame.locals import *
 def main():
     pyg.init()
     screen = pyg.display.set_mode((800,800))
-    place_bug(screen,3)
+    place_bug(screen,1)
 
 def drawhovericon(sectorcenter): #also eventually intake (player)
     pass

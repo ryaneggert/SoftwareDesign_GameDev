@@ -169,7 +169,7 @@ class GameView(object):
         new_image = pyg.transform.scale(image, (scaled_size))
         self.screen.blit(new_image,(sectorcenter))
 
-#        pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
+        pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
 
         
 def stttmain():
