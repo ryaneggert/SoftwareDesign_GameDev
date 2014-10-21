@@ -10,7 +10,7 @@ Sourced from Ryan Eggert's pygametest1.py
 import pygame as pyg
 from pygame.locals import *
 import button_gui
-# import rules # Throwing errors because when you import rules you also import Button again
+import rules # Throwing errors because when you import rules you also import Button again
 
 """Button class sourced from Simon H. Larsen, http://lagusan.com/button-drawer-python-2-6/"""
 
@@ -49,18 +49,20 @@ class Button:
             return True
         else: return False
 
-def main():
+def welcome_main():
     
     # Writes window title text
     pyg.init()
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
     pyg.display.set_caption('Spyder Tic-Tac-Toe')
     
-    # Create and draw background on Surface
-    background = pyg.Surface(screen.get_size()) # background is a surface
-    background = background.convert()
-    background.fill((250, 250, 250))
-    screen.blit(background, (0, 0))
+    # Add Spider Web background
+    background = pyg.image.load("spiderweb.jpg")
+    background = pyg.transform.scale(background,(800, 800))
+    pyg.display.set_icon(background)
+    pyg.display.set_caption("Spyder Tic-Tac-Toe Rules")
+    screen.blit(background,[0,0])
+    pyg.display.flip()
     
      # Make a blue 2 player button
     p2_button = Button()
@@ -86,9 +88,13 @@ def main():
     screen.blit(rule, rulespos)
     pyg.display.flip()
     
-    # Display title text
+    # Display title text on a trasparent rectangle
+    trans = pyg.Surface((680,70)) #starts at (0,0) and builds (width,height)
+    trans.set_alpha(215) # 0 is invisible, 255 is solid, 128 is recommended
+    trans.fill((60,60,60))
+    screen.blit(trans,(60,5)) # refreshes the screen starting at (right,down)
     font = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 54)
-    text = font.render("Welcome to Spyder Tic-Tac-Toe!", 1, (10, 10, 10))
+    text = font.render("Welcome to Spyder Tic-Tac-Toe!", 1, (255, 255, 255))
     textpos = text.get_rect()
     textpos.centerx = screen.get_rect().centerx
     screen.blit(text, textpos)
@@ -109,7 +115,7 @@ def main():
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
                     print 'Rules'
-                    rules.main()                    
+                    rules.rules_main()                    
                     return
                 if p2_button.pressed(mouse_pos):
                     print '2 Players'
@@ -121,4 +127,4 @@ def main():
                     return
                     
 if __name__ == '__main__':
-    main()
+   welcome_main()

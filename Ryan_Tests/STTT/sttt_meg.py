@@ -157,7 +157,19 @@ class GameView(object):
 
     def drawhovericon(self, sectorcenter, player):
         """Given the cartesian center of a sector of the gameboard, draws a semitransparent icon over that sector """
-        pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
+        if player == 1:
+            image = pyg.image.load('redbug.png')
+        elif player == 2:
+            image = pyg.image.load('bluebug.png')
+        elif player == 3:
+            image = pyg.image.load('purplebug.png')
+        rect = image.get_rect()
+        rect_coord = rect_x, rect_y = (rect.centerx, rect.centery)
+        scaled_size = width,height = (50,50)
+        new_image = pyg.transform.scale(image, (scaled_size))
+        self.screen.blit(new_image,(sectorcenter))
+
+#        pyg.draw.circle(self.background, (0,255,126), sectorcenter, 5, 3)
 
         
 def stttmain():

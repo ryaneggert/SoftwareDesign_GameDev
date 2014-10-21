@@ -1,9 +1,16 @@
 List:
     
     Rules page (+ attach to welcome.py) [Meg's working on it]
-	Fix broken functionality jumping from main menu to rules (due to importing of class Button)
-	Create a text box and add rules
-	Get pictures of game grid (x3) from Ryan and add color using some Adobe product to show winning situations	
+	[x] Fix broken functionality jumping from main menu to rules (due to importing of class Button)
+	[x] Create a text box and add rules
+	[ ] Add color to game grids (x3) using some Adobe product (Photoshop?) to show winning
+	[no] Main menu text larger on button
+	[x] Wrap text (like a caveman)
+	[ ] Pro: Add scrolling
+
+    In a perfect world full of extra time,
+	[ ] Scale the bugggss based on which ring they live. Inner ring makes baby bugs, outer makes BIG bugs.
+	[ ] Make them rotate based on their angle
 
     button_gui
         Rectangles should become buttons.
@@ -19,7 +26,7 @@ List:
             Restructure somewhat and begin to add gameplay mechanics (icon placement, player switching)
 
     Topics of discussion:
-        "Spyder" Tic-Tac-Toe: Good name? Bad name? Name?
+        "Spyder" Tic-Tac-Toe: Good name? Bad name? Name? Good name :)
 
 
     Ryan's savvy business advice:
