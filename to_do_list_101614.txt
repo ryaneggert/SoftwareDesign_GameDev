@@ -5,6 +5,11 @@ List:
 	[ ] Create matrix for each player to hold positions
 	[ ] Create winning conditions (and pictures on rules page)
 	[ ] Winning screen.
+	[ ] sttt.py: placepiece()
+		Writing to nested lists. When you place a piece at list[2][3] it puts them at allll the [2][3]s
+	[ ] In view there is a blank function called gamearray()
+		Every while loop we are redrawing things. We have a list of all the player positions. We need to put their dinos there and blit them.
+	[ ] The skeleton for setting player image exists in the Player class. Let's make that a thing.
 	
     Rules page (+ attach to welcome.py) [Meg's working on it]
 	[x] Fix broken functionality jumping from main menu to rules (due to importing of class Button)

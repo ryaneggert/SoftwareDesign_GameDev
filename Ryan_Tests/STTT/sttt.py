@@ -252,8 +252,12 @@ class Player(object):
 
     def didwin(self):
         """Checks this Player's positions to see if he/she has won."""
-        return 0
-                        
+        # Straight
+        for num in range(8):
+            appear = self.thetas.count(num)
+            if appear == 4:
+                print self.name + ' won with a straight!'    # Debuggging
+                return 1                    
 
         
 def stttmain(playerNames):
