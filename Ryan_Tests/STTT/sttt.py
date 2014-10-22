@@ -81,7 +81,7 @@ class GameModel(object):
         for name in players:
             i += 1
             playerobjs.append(Player(name, i))
-        self.players = playerobjs
+        self.players = playerobjs   # All the player objects
         self.setcurrentplayer(self.currentplayerindex)
 
         # Instantiate game array
@@ -164,7 +164,7 @@ class GameModel(object):
 
 class GameView(object):
     """docstring for GameView"""
-    def __init__(self, centerpoint, radiusIncrement):
+    def __init__(self, centerpoint, radiusIncrement, playerList):
         super(GameView, self).__init__()
         # Gameboard parameters
         self.centerpoint = self.webCX, self.webCY = centerpoint
@@ -180,8 +180,28 @@ class GameView(object):
         self.robotocondensedL = pyg.font.Font("fonts/RobotoCondensed-Light.ttf", 36)
         self.drawweb()
         pyg.display.flip
+        imagenames = ['redbug.png','bluebug.png','purplebug.png']
+        # Set Player Icons]
+        i = 0
+        for playerloop in playerList:
+            icon = pyg.image.load(imagenames[i])
+            rect = icon.get_rect()
+            rect_coord = rect_x, rect_y = (rect.centerx, rect.centery)
+            coord = width,height = (50,50)
+            playerloop.image = pyg.transform.scale(icon, (coord))
+            i += 1
 
-        # Set Player Icons
+        # self.icon2 = pyg.image.load('bluebug.png')
+        # rect = self.icon2.get_rect()
+        # rect_coord = rect_x, rect_y = (rect.centerx, rect.centery)
+        # coord = width,height = (50,50)
+        # self.icon2 = pyg.transform.scale(self.icon2, (coord))
+
+        # self.icon3 = pyg.image.load('purplebug.png')
+        # rect = self.icon3.get_rect()
+        # rect_coord = rect_x, rect_y = (rect.centerx, rect.centery)
+        # coord = width,height = (50,50)
+        # self.icon3 = pyg.transform.scale(self.icon3, (coord))
 
     def drawweb(self):
         """Draws only the web and title text"""
@@ -208,26 +228,18 @@ class GameView(object):
 
     def place_bug(self,player,sectorcenter):
         # Changes color of dinosaur based on which players turn it is
-        if player == 1:
-            image = pyg.image.load('redbug.png')
-        elif player == 2:
-            image = pyg.image.load('bluebug.png')
-        elif player == 3:
-            image = pyg.image.load('purplebug.png')
-        rect = image.get_rect()
-        rect_coord = rect_x, rect_y = (rect.centerx, rect.centery)
-        coord = width,height = (50,50)
-        new_image = pyg.transform.scale(image, (coord))
-        self.background.blit(new_image, sectorcenter)
+        self.background.blit(player.image, sectorcenter)
 
     def drawplayername(self, name):
         # name = players[player-1]
         self.background.blit(self.robotocondensedL.render(name, True, (0,0,255)), (650,730))
         pass
 
-    def drawgamearray(self):
+    def drawgamearray(self,playerList, Model):
         """Draws all of the pieces on the board."""
-        pass
+        for playerloop in playerList:
+            for position in playerloop.positions:
+                self.background.blit(playerloop.image,Model.sectorcenter(position)) # THIS DOESN'T WORK
 
 
 class Player(object):
@@ -263,7 +275,7 @@ def stttmain(playerNames):
     pyg.init()
 
     TTTModel = GameModel((400,400), 73, playerNames)
-    TTTView = GameView(TTTModel.centerpoint, TTTModel.radincr)
+    TTTView = GameView(TTTModel.centerpoint, TTTModel.radincr, TTTModel.players)
     TTTControl = GameController()
 
     while True:
@@ -281,11 +293,11 @@ def stttmain(playerNames):
         TTTView.drawweb()
         mouseSector = TTTModel.getmousesector(mousePolPos)
         # print TTTModel.currentplayer.name
+        TTTView.drawplayername(TTTModel.currentplayer.name)
         if mouseSector != (None,None):
             mouseSectorCenter = TTTModel.sectorcenter(mouseSector)
             # TTTView.drawhovericon(mouseSectorCenter,1)
-            TTTView.place_bug(TTTModel.currentplayer.number,mouseSectorCenter)
-            TTTView.drawplayername(TTTModel.currentplayer.name)
+            TTTView.place_bug(TTTModel.currentplayer,mouseSectorCenter)
             if mouseclick == 'Left':
                 won = TTTModel.placepiece(mouseSector)
                 # if won:
@@ -295,6 +307,7 @@ def stttmain(playerNames):
                 #     # return, etc.
                 #     pass
                 # TTTModel.nextplayer()   # For debugging purposes     
+        TTTView.drawgamearray(TTTModel.players, TTTModel)
 
 
         # Display
