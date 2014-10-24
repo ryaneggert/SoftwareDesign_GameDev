@@ -15,20 +15,21 @@ class GameController(object):
 
     def __init__(self):
         super(GameController, self).__init__()
-        self.mousePos = (None, None)
-        self.mousePolPos = (None, None)
+        self.mousepos = (None, None)
+        self.mousepolpos = (None, None)
+        self.mouseclick = None
+        self.quitgame = 0
 
     def exitevents(self):
         """Checks for exit events"""
-        quit = 0
+        quitgame = 0
         for event in self.currentevents:
             if event.type == QUIT:
-                quit = 1
+                quitgame = 1
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    quit = 1
-        self.quit = quit
-        return quit
+                    quitgame = 1
+        self.quitgame = quitgame
 
     def keyboardevents(self):
         """Checks for keyboard input"""
@@ -37,12 +38,11 @@ class GameController(object):
             if event.type == KEYDOWN and event.key != K_ESCAPE:
                 keyInput = event.key
         self.keyinput = keyInput
-        return keyInput
 
     def mouseevents(self, GameBoard):
         """Handles mouse events (clicks and position)"""
         click = None
-        mousePos = None
+        mousepos = None
         for event in self.currentevents:
             if event.type == MOUSEMOTION:   # Only update when mouse moves
                 # Current position of mouse cursor
@@ -50,15 +50,22 @@ class GameController(object):
                 mousePolPos = self.mousecarttopolar(
                     mousePos, GameBoard.centerpoint)
                 self.mousepolpos = mousePolPos
-                self.mousePos = mousePos
+                self.mousepos = mousePos
             # Only register click on mouse button down.
             elif event.type == MOUSEBUTTONDOWN:
                 # Status of left mouse button
                 leftClick = pyg.mouse.get_pressed()[0]
                 if leftClick == 1:
                     click = 'Left'
+        self.mouseclick = click
 
-        return self.mousePos, self.mousePolPos, click
+    def consolekeys(self):
+        """Prints read character keystrokes to the console."""
+        if self.keyinput is not None:
+            if self.keyinput < 129:
+                print str(unichr(self.keyinput))
+            else:
+                print 'char(%s)' % self.keyinput
 
     def mousecarttopolar(self, mouseLoc, gameBoardCenter):
         """Converts a cartesian mouse position to a polar coordinate relative
@@ -109,7 +116,6 @@ class GameModel(object):
             full_board.append([])
             for num2 in range(8):
                 full_board[num].append(None)
-        # print full_board
         self.boardarray = full_board
 
     def setcurrentplayer(self, index):
@@ -213,7 +219,8 @@ class GameView(object):
         self.robotocondensedL = pyg.font.Font(
             "fonts/RobotoCondensed-Light.ttf", 36)
         self.drawweb()
-        pyg.display.flip
+        pyg.display.flip()
+
         imagenames = ['redbug.png', 'bluebug.png', 'purplebug.png']
         playercolors = [(255, 0, 0), (0, 127, 255), (117, 87, 53)]
         # Set Player Icons
@@ -257,7 +264,7 @@ class GameView(object):
         """Given the cartesian center of a sector of the gameboard,
         draws a semitransparent icon over that sector.
         """
-        pyg.draw.circle(self.background, (0, 255, 126), sectorcenter, 5, 3)
+        pyg.draw.circle(self.background, player.color, sectorcenter, 5, 3)
 
     def place_bug(self, player, sectorcenter, sector):
         # Changes color of dinosaur based on which players turn it is
@@ -269,17 +276,16 @@ class GameView(object):
         position = (sectorX - imgSizeX / 2, sectorY - imgSizeY / 2)
         self.background.blit(iconDraw, position)
 
-    def drawplayername(self, name, color):
+    def drawplayername(self, name, pcolor):
         """Draws the name of the current player in the
         current player's color on the screen.
         """
         self.background.blit(
-            self.robotocondensedL.render(name, True, color), (650, 730))
-        pass
+            self.robotocondensedL.render(name, True, pcolor), (650, 730))
 
-    def drawgamearray(self, playerList, sectormethod):
+    def drawgamearray(self, player_list, sectormethod):
         """Draws all of the pieces on the board."""
-        for playerloop in playerList:
+        for playerloop in player_list:
             for position in playerloop.positions:
                 self.place_bug(playerloop, sectormethod(position), position)
 
@@ -291,7 +297,7 @@ class GameView(object):
 
 class Player(object):
 
-    """Player object"""
+    """Player object."""
 
     def __init__(self, name, number):
         super(Player, self).__init__()
@@ -301,6 +307,7 @@ class Player(object):
         self.thetas = []
         self.radii = []
         self.color = None
+        self.image = None
 
     def setimage(self, imagefilename):
         """Given a filename, sets this Player's icon/image."""
@@ -318,7 +325,7 @@ class Player(object):
         for num in range(8):
             appear = self.thetas.count(num)
             if appear == 4:
-                print self.name + ' won with a straight!'    # Debuggging
+                print self.name + ' won with a straight!'    # Debugging
                 return 1
 
 
@@ -332,18 +339,19 @@ def stttmain(playerNames):
     won = 0
     while True:
         TTTControl.currentevents = pyg.event.get()
-        quit = TTTControl.exitevents()
-        keys = TTTControl.keyboardevents()
-        mousepos, mousePolPos, mouseclick = TTTControl.mouseevents(TTTModel)
+        TTTControl.exitevents()
+        TTTControl.keyboardevents()
+        TTTControl.mouseevents(TTTModel)
+        TTTControl.consolekeys()
         # If we want to quit, then do so.
-        if quit:
+        if TTTControl.quitgame:
             print "Quitting"
             pyg.quit()
             # print TTTModel.boardarray
             return
         # Do some game thinking
         TTTView.drawweb()
-        mouseSector = TTTModel.getmousesector(mousePolPos)
+        mouseSector = TTTModel.getmousesector(TTTControl.mousepolpos)
         # print TTTModel.currentplayer.name
         TTTView.drawplayername(
             TTTModel.currentplayer.name, TTTModel.currentplayer.color)
@@ -352,7 +360,7 @@ def stttmain(playerNames):
             # TTTView.drawhovericon(mouseSectorCenter,1)
             TTTView.place_bug(
                 TTTModel.currentplayer, mouseSectorCenter, mouseSector)
-            if mouseclick == 'Left':
+            if TTTControl.mouseclick == 'Left':
                 won = TTTModel.placepiece(mouseSector)
 
         # Finalize Display
