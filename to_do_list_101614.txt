@@ -5,8 +5,11 @@ List:
 	[x] Create matrix for each player to hold positions
 	[ ] Create winning conditions (and pictures on rules page)
 	[ ] Winning screen.
-    [ ] Fix: Game breaks in button_gui when one clicks on a text box.
+    [ ] Fix: Game breaks in button_gui when one clicks on a text box [button_gui].
+    [ ] References to "string" in button_gui. Not imported, still in code? What?
     [ ] Restructure: button_gui. Use main() to instantiate objects; do not call main() from __init__. main() should not be a method either!
+    [ ] button_gui: remove "Some button was pressed" after text box error (see above) is fixed.
+    [ ] Make sure we use Classname(object) notation.
 	[x] sttt.py: placepiece()
 		Writing to nested lists. When you place a piece at list[2][3] it puts them at allll the [2][3]s
 	[x] In view there is a blank function called gamearray()
