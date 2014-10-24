@@ -1,15 +1,17 @@
 List:
     
-    To Do 10-21:
-	[ ] Create matrix to hold board status
-	[ ] Create matrix for each player to hold positions
+    To Do 10-24:
+	[x] Create matrix to hold board status
+	[x] Create matrix for each player to hold positions
 	[ ] Create winning conditions (and pictures on rules page)
 	[ ] Winning screen.
-	[ ] sttt.py: placepiece()
+    [ ] Fix: Game breaks in button_gui when one clicks on a text box.
+    [ ] Restructure: button_gui. Use main() to instantiate objects; do not call main() from __init__. main() should not be a method either!
+	[x] sttt.py: placepiece()
 		Writing to nested lists. When you place a piece at list[2][3] it puts them at allll the [2][3]s
-	[ ] In view there is a blank function called gamearray()
+	[x] In view there is a blank function called gamearray()
 		Every while loop we are redrawing things. We have a list of all the player positions. We need to put their dinos there and blit them.
-	[ ] The skeleton for setting player image exists in the Player class. Let's make that a thing.
+	[x] The skeleton for setting player image exists in the Player class. Let's make that a thing.
 	
     Rules page (+ attach to welcome.py) [Meg's working on it]
 	[x] Fix broken functionality jumping from main menu to rules (due to importing of class Button)
@@ -20,21 +22,16 @@ List:
 	[ ] Pro: Add scrolling
 
     In a perfect world full of extra time,
-	[ ] Scale the bugggss based on which ring they live. Inner ring makes baby bugs, outer makes BIG bugs.
+	[x] Scale the bugggss based on which ring they live. Inner ring makes baby bugs, outer makes BIG bugs.
 	[ ] Make them rotate based on their angle
 
     button_gui
         Rectangles should become buttons.
         Nested infinite loops aren't good (in button_gui.ask). We're missing out on button, exit, mouse, etc. inputs.
         Click (or hover) over text boxes to input.
-        Also, calling main() from an __init__ is kinda weird. Consider having __init__ only initialize values and attributes. Often main() is what contains the line of code which initializes an object (not the other way round).
+    [ ] Also, calling main() from an __init__ is kinda weird. Consider having __init__ only initialize values and attributes. Often main() is
+        what contains the line of code which initializes an object (not the other way round).
         Make shift key work (capitalization)
-
-    gamearea
-        Buttons: Add some (e.g. 'quit', 'main menu' OR 'back')
-        Add player names, icons.
-        Make it MVC-structure.
-            Restructure somewhat and begin to add gameplay mechanics (icon placement, player switching)
 
     Topics of discussion:
         "Spyder" Tic-Tac-Toe: Good name? Bad name? Name? Good name :)
