@@ -165,7 +165,6 @@ class GameModel(object):
 
         avgR = sum(corner[0] for corner in corners) / len(corners)
         avgTheta = sum(corner[1] for corner in corners) / len(corners)
-        avgPol = avgR, avgTheta
         avgX = avgR * math.cos(math.radians(avgTheta))  # Convert to cartesian
         avgY = avgR * math.sin(math.radians(avgTheta))
         screenX = self.webCX + avgX
@@ -292,7 +291,7 @@ class GameView(object):
 
 class Player(object):
 
-    """docstring for Player"""
+    """Player object"""
 
     def __init__(self, name, number):
         super(Player, self).__init__()
