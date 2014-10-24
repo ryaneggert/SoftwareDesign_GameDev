@@ -12,9 +12,9 @@ full_board = []
 # print full_board
 
 for num in range(4):
-	full_board.append([])
-	for num2 in range(8):
-		full_board[num].append(None)
+    full_board.append([])
+    for num2 in range(8):
+        full_board[num].append(None)
 
 # full_board = [[None, None, None, None, None, None, None, None], [None, None, None, None, None, None, None, None], [None, None, None, None, None, None, None, None], [None, None, None, None, None, None, None, None]]
 

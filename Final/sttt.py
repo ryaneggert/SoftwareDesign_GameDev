@@ -140,7 +140,7 @@ class GameModel(object):
                 sR = ring
                 break
             sR = None
-        if sR == None:
+        if sR is None:
             sTheta = None
         else:
             sTheta = int(mouseTheta / 45) + 1
@@ -155,11 +155,11 @@ class GameModel(object):
         corners = []
         if sR > 1:
             for i in itertools.product([(sR - 1) * self.radincr,
-                sR * self.radincr], [sTheta * 45, (sTheta - 1) * 45]):
+                    sR * self.radincr], [sTheta * 45, (sTheta - 1) * 45]):
                 corners.append(i)
         elif sR == 1:
             for i in itertools.product([(sR - 1) * self.radincr,
-                sR * self.radincr], [sTheta * 45, (sTheta - 1) * 45]):
+                    sR * self.radincr], [sTheta * 45, (sTheta - 1) * 45]):
                 corners.append(i)
             # del corners[0]
 
@@ -178,7 +178,7 @@ class GameModel(object):
         gameboard array and their player array
         """
         sR, sTheta = sector
-        if self.boardarray[sR - 1][sTheta - 1] == None:
+        if self.boardarray[sR - 1][sTheta - 1] is None:
             # Then place piece
             # Update the gameboard array.
             self.boardarray[sR - 1][sTheta - 1] = self.currentplayer.number
@@ -225,7 +225,7 @@ class GameView(object):
             playerloop.color = playercolors[i]
             i += 1
         self.imagesizes = [0, int(self.radincr * .28), int(self.radincr * .6),
-        int(self.radincr * .68), int(self.radincr * .82)]
+            int(self.radincr * .68), int(self.radincr * .82)]
 
     def drawweb(self):
         """Draws only the web and title text"""
@@ -233,7 +233,6 @@ class GameView(object):
         # Determine length of diagonal lines
         dOff = int((axisLen ** 2 / 2) ** .5)
         # Determine length of side of rect to contain arc
-        arcBox = int((self.radincr ** 2 / 2) ** .5)
         self.background.fill((250, 250, 250))
         for i in xrange(4):  # Draw circles
             pyg.draw.circle(
