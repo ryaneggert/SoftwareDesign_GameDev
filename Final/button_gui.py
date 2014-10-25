@@ -35,45 +35,6 @@ class new_button:
             else:
                 pass
 
-    def display_box(self, screen, message):
-        fontobject = pygame.font.Font(None, 30)
-        if len(message) != 0:
-            screen.blit(fontobject.render(message, 1, (0, 0, 0)),
-                        (200, 240))
-        pygame.display.flip()
-
-    def ask(self, screen, question):
-        pygame.font.init()
-        current_string = []
-        self.display_box(
-            self.screen, question + ": " + string.join(current_string, ""))
-        while 1:
-            events = pygame.event.get()
-            for event in events:
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
-            inkey = self.get_key()
-            if inkey == K_BACKSPACE:
-                pygame.draw.rect(
-                    self.screen, (255, 255, 255), (200, 240, 400, 80), 0)
-                current_string = current_string[0:-1]
-            elif inkey == K_ESCAPE:
-                pygame.quit()
-                return
-            elif inkey == K_RETURN:
-                break
-            elif inkey == K_MINUS:
-                current_string.append("_")
-            elif inkey <= 127:
-                current_string.append(chr(inkey))
-
-            self.display_box(
-                self.screen, question + ": " + string.join(current_string, ""))
-        return string.join(current_string, "")
-        # print new_button.ask(self.screen, "Player 1 Name") + " was entered"
-        pygame.display.flip()
-
     def update_display(self):
         # load the image
         background_image = pygame.image.load("spiderweb.jpg")
@@ -158,9 +119,10 @@ class new_button:
                     elif self.player2.pressed(pygame.mouse.get_pos()):
                         leave = 2
                         break
-                    elif self.player3.pressed(pygame.mouse.get_pos()):
-                        leave = 3
-                        break
+                    elif self.num_players == 3:
+                        if self.player3.pressed(pygame.mouse.get_pos()):
+                            leave = 3
+                        break   
 
                 elif event.type == KEYDOWN:
                     if event.key == K_ESCAPE:

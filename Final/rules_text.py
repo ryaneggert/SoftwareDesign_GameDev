@@ -19,7 +19,7 @@ rules_list = [('Objective',1),
               ('outer ring.',0),
               ('2. Curve',1),
               ('Place one bug anywhere and place three more in the same level ring.',0),
-              ('3. Sprial',1),
+              ('3. Spiral',1),
               ('The most complex (and sneaky) way to win. One bug must be in the center ring',0),
               ('From here, place your next three bugs up and over one cell, in either direction',0),
               ('until you reach the outer ring',0)]

@@ -2,6 +2,7 @@
 # MVC architecture for spider/spyder tic-tac-toe
 
 import pygame as pyg
+import welcome
 import math
 import itertools
 from pygame.locals import *
@@ -294,6 +295,8 @@ class GameView(object):
         self.screen.blit(self.background, (0, 0))
         pyg.display.flip()
 
+    def winningpopup(self):
+        print self.name + ' won with a straight!'
 
 class Player(object):
 
@@ -326,8 +329,10 @@ class Player(object):
             appear = self.thetas.count(num)
             if appear == 4:
                 print self.name + ' won with a straight!'    # Debugging
-                return 1
+                won = 1
+                return won
 
+        for radius in self.radii:
 
 def stttmain(playerNames):
     pyg.init()
@@ -362,14 +367,14 @@ def stttmain(playerNames):
                 TTTModel.currentplayer, mouseSectorCenter, mouseSector)
             if TTTControl.mouseclick == 'Left':
                 won = TTTModel.placepiece(mouseSector)
+                print won
 
         # Finalize Display
         # Draw entire gameboard
         TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
         TTTView.finalizedisplay()
         if won:
-            return
-
+            TTTView.winningpopup()
 
 if __name__ == '__main__':
     stttmain(['Abi', 'Meg', 'Ryan'])
