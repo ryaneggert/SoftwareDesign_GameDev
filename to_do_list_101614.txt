@@ -3,7 +3,7 @@ List:
     To Do 10-24:
 	[x] Create matrix to hold board status
 	[x] Create matrix for each player to hold positions
-	[ ] Create winning conditions (and pictures on rules page)
+	[x] Create winning conditions (and pictures on rules page)
 	[ ] Winning screen.
     [ ] Fix: Game breaks in button_gui when one clicks on a text box [button_gui].
     [ ] References to "string" in button_gui. Not imported, still in code? What?
