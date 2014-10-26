@@ -87,7 +87,6 @@ class GameController(object):
         self.mousePolPos = (mr, mtheta)
         return self.mousePolPos
 
-
 class GameModel(object):
 
     """Tic-Tac-Toe game model component.
@@ -197,7 +196,6 @@ class GameModel(object):
         else:
             print "This space is taken"     # For debugging.
 
-
 class GameView(object):
 
     """Tic-Tac-Toe game view component. Displays game."""
@@ -282,7 +280,7 @@ class GameView(object):
         current player's color on the screen.
         """
         self.background.blit(
-            self.robotocondensedL.render(name, True, pcolor), (650, 730))
+            self.robotocondensedL.render(name, True, pcolor), (20, 730))
 
     def drawgamearray(self, player_list, sectormethod):
         """Draws all of the pieces on the board."""
@@ -296,12 +294,12 @@ class GameView(object):
         pyg.display.flip()
 
     def winningpopup(self, playername, mouseposition, mouseclick):
-        print "win"
+        # print "win"
         a = 0
-        trans = pyg.Surface((400, 400))  # starts at (0,0) and builds (width,height)
+        trans = pyg.Surface((600, 400))  # starts at (0,0) and builds (width,height)
         trans.set_alpha(235)
         trans.fill((60,60,60))
-        self.background.blit(trans, (200,200))
+        self.background.blit(trans, (100,200))
         font = pyg.font.Font(None, 36)
         winning_msg = 'Congratulations ' + playername + '!'
         default_msg = 'You won the game!'
@@ -320,12 +318,11 @@ class GameView(object):
         
         if mouseclick == 'Left':
             if self.main_menu.pressed(mouseposition):
-                welcome.welcome_main()
-                return
+                a = 2
+                return a
             elif self.quitting.pressed(mouseposition):
                 a = 1
                 return a
-
 
         #print self.name + ' won with a straight!'
 
@@ -423,10 +420,13 @@ def stttmain(playerNames):
         TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
         a = TTTView.winningpopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick)    
         TTTView.finalizedisplay()
-        if TTTControl.quitgame or a:
+        if TTTControl.quitgame or a == 1:
             print "Quitting"
             pyg.quit() 
-            return     
+            return
+        elif a == 2:
+            welcome.welcome_main()
+            return
 
 if __name__ == '__main__':
     stttmain(['Abi', 'Meg', 'Ryan'])

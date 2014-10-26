@@ -81,10 +81,10 @@ def main(num_players):
     player3 = Buttons.Button()
     viewname = name_buttons(num_players)
     viewname.display()
-    txtbx = eztext.Input(x=350, y=225, maxlength=45, color=(0, 0, 0))
-    txtbx2 = eztext.Input(x=350, y=375, maxlength=45, color=(0, 0, 0))
+    txtbx = eztext.Input(x=350, y=225, maxlength=15, color=(0, 0, 0))
+    txtbx2 = eztext.Input(x=350, y=375, maxlength=15, color=(0, 0, 0))
     if num_players == 3:
-        txtbx3 = eztext.Input(x=350, y=525, maxlength=45, color=(0, 0, 0))
+        txtbx3 = eztext.Input(x=350, y=525, maxlength=15, color=(0, 0, 0))
     leave = 0
     while True:
 
@@ -157,6 +157,4 @@ def main(num_players):
 if __name__ == "__main__":
     # call the main function
     num_players = 3
-    #obj = new_button(num_players)
     main(num_players)
-    #main(3)
