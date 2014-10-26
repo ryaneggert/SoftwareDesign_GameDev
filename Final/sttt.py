@@ -295,8 +295,39 @@ class GameView(object):
         self.screen.blit(self.background, (0, 0))
         pyg.display.flip()
 
-    def winningpopup(self):
-        print self.name + ' won with a straight!'
+    def winningpopup(self, playername, mouseposition, mouseclick):
+        print "win"
+        a = 0
+        trans = pyg.Surface((400, 400))  # starts at (0,0) and builds (width,height)
+        trans.set_alpha(235)
+        trans.fill((60,60,60))
+        self.background.blit(trans, (200,200))
+        font = pyg.font.Font(None, 36)
+        winning_msg = 'Congratulations ' + playername + '!'
+        default_msg = 'You won the game!'
+        self.font = pyg.font.SysFont('robotocondensedL', 50)
+        text = self.font.render(winning_msg, True, (255,255,255))
+        textrect = text.get_rect()
+        textrect.centerx = self.background.get_rect().centerx
+        textrect.centery = self.background.get_rect().centery
+        self.background.blit(text, textrect)
+        self.background.blit(self.font.render(default_msg, True, (255,255,255)), (250,500))
+        self.main_menu = welcome.Button()
+        self.quitting = welcome.Button()
+
+        self.main_menu.create_button(self.background, (0, 255, 0), 220, 220, 160, 100, 0, "Menu", (0, 0, 0))
+        self.quitting.create_button(self.background, (0, 255, 0), 420, 220, 160, 100, 0, "Exit", (0, 0, 0))
+        
+        if mouseclick == 'Left':
+            if self.main_menu.pressed(mouseposition):
+                welcome.welcome_main()
+                return
+            elif self.quitting.pressed(mouseposition):
+                a = 1
+                return a
+
+
+        #print self.name + ' won with a straight!'
 
 class Player(object):
 
@@ -332,7 +363,7 @@ class Player(object):
                 won = 1
                 return won
 
-        for radius in self.radii:
+        # for radius in self.radii:
 
 def stttmain(playerNames):
     pyg.init()
@@ -342,6 +373,7 @@ def stttmain(playerNames):
         TTTModel.centerpoint, TTTModel.radincr, TTTModel.players)
     TTTControl = GameController()
     won = 0
+    winning_exit = 0
     while True:
         TTTControl.currentevents = pyg.event.get()
         TTTControl.exitevents()
@@ -349,6 +381,7 @@ def stttmain(playerNames):
         TTTControl.mouseevents(TTTModel)
         TTTControl.consolekeys()
         # If we want to quit, then do so.
+        
         if TTTControl.quitgame:
             print "Quitting"
             pyg.quit()
@@ -368,13 +401,32 @@ def stttmain(playerNames):
             if TTTControl.mouseclick == 'Left':
                 won = TTTModel.placepiece(mouseSector)
                 print won
+        
 
         # Finalize Display
         # Draw entire gameboard
-        TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
+        
+        TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)    
         TTTView.finalizedisplay()
         if won:
-            TTTView.winningpopup()
+            break
+
+    while won:
+        TTTControl.currentevents = pyg.event.get()
+        TTTControl.exitevents()
+        TTTControl.keyboardevents()
+        TTTControl.mouseevents(TTTModel)
+        TTTControl.consolekeys()
+        
+        # print winning_exit
+        TTTView.drawweb()
+        TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
+        a = TTTView.winningpopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick)    
+        TTTView.finalizedisplay()
+        if TTTControl.quitgame or a:
+            print "Quitting"
+            pyg.quit() 
+            return     
 
 if __name__ == '__main__':
     stttmain(['Abi', 'Meg', 'Ryan'])

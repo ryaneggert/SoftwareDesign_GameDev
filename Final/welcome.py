@@ -132,11 +132,11 @@ def welcome_main():
                     return
                 if p2_button.pressed(mouse_pos):
                     print '2 Players'
-                    obj = button_gui.new_button(2)
+                    button_gui.main(2)
                     return
                 if p3_button.pressed(mouse_pos):
                     print '3 Players'
-                    obj = button_gui.new_button(3)
+                    button_gui.main(3)
                     return
 
 if __name__ == '__main__':

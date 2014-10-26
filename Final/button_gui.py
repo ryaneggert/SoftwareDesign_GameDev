@@ -16,26 +16,17 @@ import welcome
 pygame.init()
 
 
-class new_button:
+class name_buttons(object):
 
     def __init__(self, num_players):
         self.num_players = num_players
-        self.main()
-
+        
     # Create a display
     def display(self):
         # create a surface on screen that has the size of 800 x 800
         self.screen = pygame.display.set_mode((800, 800))
 
-    def get_key(self):
-        while 1:
-            event = pygame.event.poll()
-            if event.type == KEYDOWN:
-                return event.key
-            else:
-                pass
-
-    def update_display(self):
+    def update_display(self, num_players, buttons):
         # load the image
         background_image = pygame.image.load("spiderweb.jpg")
         background_image = pygame.transform.scale(background_image, (800, 800))
@@ -45,118 +36,127 @@ class new_button:
         # draw a rectangle (x,y,length,height) where upper left corner position = x,y and extends to the right (width,height)
         #pygame.draw.rect(screen, (255,255,255), (0, 0, 150, 80), 0)
         #pygame.draw.rect(screen, (255,255,255),(650, 720, 150,80), 0)
-        self.backbutton.create_button(
+        backbutton = buttons[0]
+        nextbutton = buttons[1]
+        player1 = buttons[2]
+        player2 = buttons[3]
+        if num_players == 3:
+            player3 = buttons[4]
+
+        backbutton.create_button(
             self.screen, (255, 255, 255), 0, 0, 150, 80, 0, "Back", (0, 0, 0))
-        self.nextbutton.create_button(
+        nextbutton.create_button(
             self.screen, (255, 255, 255), 650, 720, 150, 80, 0, "Play", (0, 0, 0))
         # call function (surface, (R,G,B), x, y, length, height, width, text on
         # button, text color)
 
         # Using num_players creates appropriate number of text inputs fields
-        total_height = self.num_players * 200
+        total_height = num_players * 200
 
         for i in range(200, total_height, 150):
             pygame.draw.rect(
                 self.screen, (255, 255, 255), (200, i, 400, 80), 0)
 
-        if self.num_players == 3:
-            self.player1.create_button(
+        if num_players == 3:
+            player1.create_button(
                 self.screen, (255, 255, 255), 200, 200, 100, 80, 0, "Player 1", (0, 0, 0))
-            self.player2.create_button(
+            player2.create_button(
                 self.screen, (255, 255, 255), 200, 350, 100, 80, 0, "Player 2", (0, 0, 0))
-            self.player3.create_button(
+            player3.create_button(
                 self.screen, (255, 255, 255), 200, 500, 100, 80, 0, "Player 3", (0, 0, 0))
 
         else:
-            self.player1.create_button(
+            player1.create_button(
                 self.screen, (255, 255, 255), 200, 200, 100, 80, 0, "Player 1", (0, 0, 0))
-            self.player2.create_button(
+            player2.create_button(
                 self.screen, (255, 255, 255), 200, 350, 100, 80, 0, "Player 2", (0, 0, 0))
         # pygame.display.flip()
 
     # define a variable to control the main loop
-    def main(self):
-        self.backbutton = Buttons.Button()
-        self.nextbutton = Buttons.Button()
-        self.player1 = Buttons.Button()
-        self.player2 = Buttons.Button()
-        self.player3 = Buttons.Button()
-        self.display()
-        txtbx = eztext.Input(x=350, y=225, maxlength=45, color=(0, 0, 0))
-        txtbx2 = eztext.Input(x=350, y=375, maxlength=45, color=(0, 0, 0))
-        if self.num_players == 3:
-            txtbx3 = eztext.Input(x=350, y=525, maxlength=45, color=(0, 0, 0))
-        leave = 0
-        while True:
+def main(num_players):
+    backbutton = Buttons.Button()
+    nextbutton = Buttons.Button()
+    player1 = Buttons.Button()
+    player2 = Buttons.Button()
+    player3 = Buttons.Button()
+    viewname = name_buttons(num_players)
+    viewname.display()
+    txtbx = eztext.Input(x=350, y=225, maxlength=45, color=(0, 0, 0))
+    txtbx2 = eztext.Input(x=350, y=375, maxlength=45, color=(0, 0, 0))
+    if num_players == 3:
+        txtbx3 = eztext.Input(x=350, y=525, maxlength=45, color=(0, 0, 0))
+    leave = 0
+    while True:
 
-            # print self.ask(self.screen, "Player 1 Name")
+        # print self.ask(self.screen, "Player 1 Name")
 
-            events = pygame.event.get()
+        events = pygame.event.get()
 
-            for event in events:
+        for event in events:
 
-                if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
+            elif event.type == MOUSEBUTTONDOWN:
+                if backbutton.pressed(pygame.mouse.get_pos()):
+                    print "Previous page!"
+                    welcome.welcome_main()
+                    return
+                elif nextbutton.pressed(pygame.mouse.get_pos()):
+                    print "Play game!!!"
+                    names = [txtbx.value, txtbx2.value]
+                    if num_players == 3:
+                        names.append(txtbx3.value)
+                    sttt.stttmain(names)
+                    return
+
+                elif player1.pressed(pygame.mouse.get_pos()):
+                    leave = 1
+                    # print leave
+                    # self.write()
+                    break
+                elif player2.pressed(pygame.mouse.get_pos()):
+                    leave = 2
+                    break
+                elif num_players == 3:
+                    if player3.pressed(pygame.mouse.get_pos()):
+                        leave = 3
+                    break   
+
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
                     pygame.quit()
                     return
-                elif event.type == MOUSEBUTTONDOWN:
-                    if self.backbutton.pressed(pygame.mouse.get_pos()):
-                        print "Previous page!"
-                        welcome.welcome_main()
-                        return
-                    elif self.nextbutton.pressed(pygame.mouse.get_pos()):
-                        print "Play game!!!"
-                        names = [txtbx.value, txtbx2.value]
-                        if self.num_players == 3:
-                            names.append(txtbx3.value)
-                        sttt.stttmain(names)
-                        return
 
-                    elif self.player1.pressed(pygame.mouse.get_pos()):
-                        leave = 1
-                        # print leave
-                        # self.write()
-                        break
-                    elif self.player2.pressed(pygame.mouse.get_pos()):
-                        leave = 2
-                        break
-                    elif self.num_players == 3:
-                        if self.player3.pressed(pygame.mouse.get_pos()):
-                            leave = 3
-                        break   
+        if leave == 1:
+            # self.update_display()
+            txtbx.update(events)
+            txtbx.draw(viewname.screen)
+            txtbx2.draw(viewname.screen)
+                            # print txtbx.value
+        elif leave == 2:
+            # self.update_display()
+            txtbx2.update(events)
+            txtbx.draw(viewname.screen)
+            txtbx2.draw(viewname.screen)
 
-                elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        pygame.quit()
-                        return
+            # print txtbx.value
+        elif leave == 3:
+            txtbx3.update(events)
+            txtbx.draw(viewname.screen)
+            txtbx2.draw(viewname.screen)
 
-            if leave == 1:
-                # self.update_display()
-                txtbx.update(events)
-                txtbx.draw(self.screen)
-                txtbx2.draw(self.screen)
-                if self.num_players == 3:
-                    txtbx3.draw(self.screen)
-                # print txtbx.value
-            elif leave == 2:
-                # self.update_display()
-                txtbx2.update(events)
-                txtbx.draw(self.screen)
-                txtbx2.draw(self.screen)
-                if self.num_players == 3:
-                    txtbx3.draw(self.screen)
-                # print txtbx.value
-            elif leave == 3:
-                txtbx3.update(events)
-                txtbx.draw(self.screen)
-                txtbx2.draw(self.screen)
-                if self.num_players == 3:
-                    txtbx3.draw(self.screen)
-            pygame.display.flip()
-            self.update_display()
+        buttons = [backbutton, nextbutton, player1, player2]
+        if num_players == 3:
+            txtbx3.draw(viewname.screen)
+            buttons.append(player3)
+        pygame.display.flip()
+        viewname.update_display(num_players,buttons)
 
 # run the main function only if this module is executed as the main script
 if __name__ == "__main__":
     # call the main function
     num_players = 3
-    obj = new_button(num_players)
-    # main()
+    #obj = new_button(num_players)
+    main(num_players)
+    #main(3)
