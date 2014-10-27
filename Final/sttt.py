@@ -5,6 +5,7 @@ import pygame as pyg
 import welcome
 import math
 import itertools
+from operator import itemgetter
 from pygame.locals import *
 
 
@@ -353,14 +354,92 @@ class Player(object):
     def didwin(self):
         """Checks this Player's positions to see if he/she has won."""
         # Straight
+        strwin = self.straightwin()
+        curwin = self.curvedwin()
+        diawin = self.diagwin()
+        # for radius in self.radii:
+        if strwin or curwin or diawin:
+            win = 1
+        else:
+            win = 0
+        return win
+
+    def straightwin(self):
+        won = 0
         for num in range(8):
             appear = self.thetas.count(num)
             if appear == 4:
                 print self.name + ' won with a straight!'    # Debugging
                 won = 1
-                return won
+        return won
 
-        # for radius in self.radii:
+    def curvedwin(self):
+        won = 0
+        ringpieces = {}
+        for i in xrange(4):
+            ringpieces[i+1] = []
+
+        for i,radius in enumerate(self.radii):
+            for j in xrange(4):
+                if radius == j+1:
+                    ringpieces[j+1].append(i)
+
+        # Check for rings with greater than four
+        for key,value in ringpieces.iteritems():
+            if len(value) >= 4:
+                # Check for consecutiveness
+                checkthetas = []
+                for index in value:
+                    checkthetas.append(self.thetas[index])
+                checkthetas.sort()
+                conseclist1 = self.consecutivelists(checkthetas)
+                won = self.checkringwin(conseclist1)
+                if not won:
+                    wraparoundthetas = [x if x >3 else x + 8 for x in checkthetas]
+                    wraparoundthetas.sort()
+                    c = self.consecutivelists(wraparoundthetas)
+                    won = self.checkringwin(c)
+        return won
+
+    def diagwin(self):
+        diagwins = [[(1,1),(2, 2), (3, 3), (4, 4)],
+                    [(1,2),(2, 3), (3, 4), (4, 5)],
+                    [(1,3),(2, 4), (3, 5), (4, 6)],
+                    [(1,4),(2, 5), (3, 6), (4, 7)],
+                    [(1,5),(2, 6), (3, 7), (4, 8)],
+                    [(1,6),(2, 7), (3, 8), (4, 1)],
+                    [(1,7),(2, 8), (3, 1), (4, 2)], 
+                    [(1,8),(2, 1), (3, 2), (4, 3)],
+                    [(1,8),(2, 7), (3, 6), (4, 5)],
+                    [(1,7),(2, 6), (3, 5), (4, 4)],
+                    [(1,6),(2, 5), (3, 4), (4, 3)],
+                    [(1,5),(2, 4), (3, 3), (4, 2)],
+                    [(1,4),(2, 3), (3, 2), (4, 1)],
+                    [(1,3),(2, 2), (3, 1), (4, 8)],
+                    [(1,2),(2, 1), (3, 8), (4, 7)],
+                    [(1,1),(2, 8), (3, 7), (4, 6)]]
+
+        for diagwinningcondition in diagwins:
+            won = all(position in self.positions for position in diagwinningcondition)
+            if won:
+                break
+        return won
+
+
+    def consecutivelists(self,checklist):
+        conseclists = []
+        for k, g in itertools.groupby(enumerate(checklist), lambda (i,x):i-x):
+            conseclists.append(map(itemgetter(1), g))
+        return conseclists
+
+    def checkringwin(self,conseclist):
+        won = 0
+        for item in conseclist:
+            if len(item) >= 4:
+                print "Won with ring"
+                won = 1
+        return won
+
 
 def stttmain(playerNames):
     pyg.init()
@@ -396,9 +475,7 @@ def stttmain(playerNames):
             TTTView.place_bug(
                 TTTModel.currentplayer, mouseSectorCenter, mouseSector)
             if TTTControl.mouseclick == 'Left':
-                won = TTTModel.placepiece(mouseSector)
-                print won
-        
+                won = TTTModel.placepiece(mouseSector)      
 
         # Finalize Display
         # Draw entire gameboard
@@ -418,6 +495,7 @@ def stttmain(playerNames):
         # print winning_exit
         TTTView.drawweb()
         TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
+        TTTView.drawplayername(TTTModel.currentplayer.name, TTTModel.currentplayer.color)
         a = TTTView.winningpopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick)    
         TTTView.finalizedisplay()
         if TTTControl.quitgame or a == 1:

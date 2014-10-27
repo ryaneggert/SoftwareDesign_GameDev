@@ -1,13 +1,13 @@
-from itertools import groupby
+import itertools
 from operator import itemgetter
 
-def consecutivelists(checklist):
+def consecutivelists(self,checklist):
     conseclists = []
-    for k, g in groupby(enumerate(checklist), lambda (i,x):i-x):
+    for k, g in itertools.groupby(enumerate(checklist), lambda (i,x):i-x):
         conseclists.append(map(itemgetter(1), g))
     return conseclists
 
-def checkringwin(conseclist):
+def checkringwin(self,conseclist):
     won = 0
     for item in conseclist:
         if len(item) >= 4:
@@ -46,4 +46,3 @@ for key,value in ringpieces.iteritems():
             c = consecutivelists(wraparoundthetas)
             print c
             won = checkringwin(c)
-print 'END'
