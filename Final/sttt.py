@@ -88,6 +88,7 @@ class GameController(object):
         self.mousePolPos = (mr, mtheta)
         return self.mousePolPos
 
+
 class GameModel(object):
 
     """Tic-Tac-Toe game model component.
@@ -204,6 +205,7 @@ class GameModel(object):
             print "This space is taken"     # For debugging.
         return won, tie
 
+
 class GameView(object):
 
     """Tic-Tac-Toe game view component. Displays game."""
@@ -238,7 +240,7 @@ class GameView(object):
             playerloop.color = playercolors[i]
             i += 1
         self.imagesizes = [0, int(self.radincr * .28), int(self.radincr * .6),
-            int(self.radincr * .68), int(self.radincr * .82)]
+                           int(self.radincr * .68), int(self.radincr * .82)]
 
     def drawweb(self):
         """Draws only the web and title text"""
@@ -253,13 +255,13 @@ class GameView(object):
                 (i + 1) * self.radincr, 3)
 
         pyg.draw.line(self.background, (0, 0, 0), (self.webCX - axisLen,
-            self.webCY), (self.webCX + axisLen, self.webCY), 3)
+           self.webCY), (self.webCX + axisLen, self.webCY), 3)
         pyg.draw.line(self.background, (0, 0, 0), (self.webCX,
-            self.webCY - axisLen), (self.webCX, self.webCY + axisLen), 3)
+           self.webCY - axisLen), (self.webCX, self.webCY + axisLen), 3)
         pyg.draw.line(self.background, (0, 0, 0), (self.webCX - dOff,
-            self.webCY - dOff), (self.webCX + dOff, self.webCY + dOff), 5)
+           self.webCY - dOff), (self.webCX + dOff, self.webCY + dOff), 5)
         pyg.draw.line(self.background, (0, 0, 0), (self.webCX + dOff,
-            self.webCY - dOff), (self.webCX - dOff, self.webCY + dOff), 5)
+           self.webCY - dOff), (self.webCX - dOff, self.webCY + dOff), 5)
         text = self.robotocondensedL.render(
             "Spyder Tic-Tac-Toe", 1, (10, 10, 10))
         textpos = text.get_rect()
@@ -297,29 +299,30 @@ class GameView(object):
                 self.place_bug(playerloop, sectormethod(position), position)
 
     def finalizedisplay(self):
-        # Blit all background changes to screen
+        """Blit all background changes to screen and flip."""
         self.screen.blit(self.background, (0, 0))
         pyg.display.flip()
 
     def wintiepopup(self, playername, mouseposition, mouseclick, tie):
         # print "win"
         a = 0
-        trans = pyg.Surface((600, 400))  # starts at (0,0) and builds (width,height)
+        trans = pyg.Surface((600, 400))  # Surface for popup message
         trans.set_alpha(235)
-        trans.fill((60,60,60))
-        self.background.blit(trans, (100,200))
+        trans.fill((60, 60, 60))
+        self.background.blit(trans, (100, 200))
         font = pyg.font.Font(None, 36)
         self.font = pyg.font.SysFont('robotocondensedL', 50)
-        
+
         if tie == 0:
             winning_msg = 'Congratulations ' + playername + '!'
-            default_msg = 'You won the game!'
-            text = self.font.render(winning_msg, True, (255,255,255))
-            self.background.blit(self.font.render(default_msg, True, (255,255,255)), (250,500))
+            default_msg = 'You won the gapme!'
+            text = self.font.render(winning_msg, True, (255, 255, 255))
+            self.background.blit(self.font.render(default_msg, True,
+                                                  (255, 255, 255)), (250, 500))
         else:
             tie_msg = 'You are all losers! Suckers! :)'
-            text = self.font.render(tie_msg, True, (255,255,255))
-        
+            text = self.font.render(tie_msg, True, (255, 255, 255))
+
         textrect = text.get_rect()
         textrect.centerx = self.background.get_rect().centerx
         textrect.centery = self.background.get_rect().centery
@@ -327,9 +330,11 @@ class GameView(object):
         self.main_menu = welcome.Button()
         self.quitting = welcome.Button()
 
-        self.main_menu.create_button(self.background, (0, 255, 0), 220, 220, 160, 100, 0, "Menu", (0, 0, 0))
-        self.quitting.create_button(self.background, (0, 255, 0), 420, 220, 160, 100, 0, "Exit", (0, 0, 0))
-        
+        self.main_menu.create_button(self.background, (0, 255, 0), 220, 220,
+                                     160, 100, 0, "Menu", (0, 0, 0))
+        self.quitting.create_button(self.background, (0, 255, 0), 420, 220,
+                                    160, 100, 0, "Exit", (0, 0, 0))
+
         if mouseclick == 'Left':
             if self.main_menu.pressed(mouseposition):
                 a = 2
@@ -338,7 +343,8 @@ class GameView(object):
                 a = 1
                 return a
 
-        #print self.name + ' won with a straight!'
+        # print self.name + ' won with a straight!'
+
 
 class Player(object):
 
@@ -378,6 +384,7 @@ class Player(object):
         return win
 
     def straightwin(self):
+        """Check Player's moves for the 'straight' winning condition"""
         won = 0
         for num in range(8):
             appear = self.thetas.count(num)
@@ -387,18 +394,19 @@ class Player(object):
         return won
 
     def curvedwin(self):
+        """Check Player's moves for the 'curved' winning condition"""
         won = 0
         ringpieces = {}
         for i in xrange(4):
-            ringpieces[i+1] = []
+            ringpieces[i + 1] = []
 
-        for i,radius in enumerate(self.radii):
+        for i, radius in enumerate(self.radii):
             for j in xrange(4):
-                if radius == j+1:
-                    ringpieces[j+1].append(i)
+                if radius == j + 1:
+                    ringpieces[j + 1].append(i)
 
         # Check for rings with greater than four
-        for key,value in ringpieces.iteritems():
+        for key, value in ringpieces.iteritems():
             if len(value) >= 4:
                 # Check for consecutiveness
                 checkthetas = []
@@ -408,44 +416,49 @@ class Player(object):
                 conseclist1 = self.consecutivelists(checkthetas)
                 won = self.checkringwin(conseclist1)
                 if not won:
-                    wraparoundthetas = [x if x >3 else x + 8 for x in checkthetas]
+                    wraparoundthetas = [
+                        x if x > 3 else x + 8 for x in checkthetas]
                     wraparoundthetas.sort()
                     c = self.consecutivelists(wraparoundthetas)
                     won = self.checkringwin(c)
         return won
 
     def diagwin(self):
-        diagwins = [[(1,1),(2, 2), (3, 3), (4, 4)],
-                    [(1,2),(2, 3), (3, 4), (4, 5)],
-                    [(1,3),(2, 4), (3, 5), (4, 6)],
-                    [(1,4),(2, 5), (3, 6), (4, 7)],
-                    [(1,5),(2, 6), (3, 7), (4, 8)],
-                    [(1,6),(2, 7), (3, 8), (4, 1)],
-                    [(1,7),(2, 8), (3, 1), (4, 2)], 
-                    [(1,8),(2, 1), (3, 2), (4, 3)],
-                    [(1,8),(2, 7), (3, 6), (4, 5)],
-                    [(1,7),(2, 6), (3, 5), (4, 4)],
-                    [(1,6),(2, 5), (3, 4), (4, 3)],
-                    [(1,5),(2, 4), (3, 3), (4, 2)],
-                    [(1,4),(2, 3), (3, 2), (4, 1)],
-                    [(1,3),(2, 2), (3, 1), (4, 8)],
-                    [(1,2),(2, 1), (3, 8), (4, 7)],
-                    [(1,1),(2, 8), (3, 7), (4, 6)]]
+        """Check Player's moves for the 'diagonal' winning condition"""
+        diagwins = [[(1, 1), (2, 2), (3, 3), (4, 4)],
+                    [(1, 2), (2, 3), (3, 4), (4, 5)],
+                    [(1, 3), (2, 4), (3, 5), (4, 6)],
+                    [(1, 4), (2, 5), (3, 6), (4, 7)],
+                    [(1, 5), (2, 6), (3, 7), (4, 8)],
+                    [(1, 6), (2, 7), (3, 8), (4, 1)],
+                    [(1, 7), (2, 8), (3, 1), (4, 2)],
+                    [(1, 8), (2, 1), (3, 2), (4, 3)],
+                    [(1, 8), (2, 7), (3, 6), (4, 5)],
+                    [(1, 7), (2, 6), (3, 5), (4, 4)],
+                    [(1, 6), (2, 5), (3, 4), (4, 3)],
+                    [(1, 5), (2, 4), (3, 3), (4, 2)],
+                    [(1, 4), (2, 3), (3, 2), (4, 1)],
+                    [(1, 3), (2, 2), (3, 1), (4, 8)],
+                    [(1, 2), (2, 1), (3, 8), (4, 7)],
+                    [(1, 1), (2, 8), (3, 7), (4, 6)]]
 
         for diagwinningcondition in diagwins:
-            won = all(position in self.positions for position in diagwinningcondition)
+            won = all(position in self.positions \
+                    for position in diagwinningcondition)
             if won:
                 break
         return won
 
-
-    def consecutivelists(self,checklist):
+    def consecutivelists(self, checklist):
+        """Takes in a list of positions, finding consecutive positions"""
         conseclists = []
-        for k, g in itertools.groupby(enumerate(checklist), lambda (i,x):i-x):
+        for k, g in itertools.groupby(enumerate(checklist),
+                                        lambda (i, x): i - x):
             conseclists.append(map(itemgetter(1), g))
         return conseclists
 
-    def checkringwin(self,conseclist):
+    def checkringwin(self, conseclist):
+        """Checks output of consecutivelists for a win."""
         won = 0
         for item in conseclist:
             if len(item) >= 4:
@@ -463,7 +476,6 @@ def stttmain(playerNames):
     TTTControl = GameController()
     won = 0
     tie = 0
-    winning_exit = 0
     while True:
         TTTControl.currentevents = pyg.event.get()
         TTTControl.exitevents()
@@ -471,7 +483,7 @@ def stttmain(playerNames):
         TTTControl.mouseevents(TTTModel)
         TTTControl.consolekeys()
         # If we want to quit, then do so.
-        
+
         if TTTControl.quitgame:
             print "Quitting"
             pyg.quit()
@@ -489,12 +501,12 @@ def stttmain(playerNames):
             TTTView.place_bug(
                 TTTModel.currentplayer, mouseSectorCenter, mouseSector)
             if TTTControl.mouseclick == 'Left':
-                won, tie = TTTModel.placepiece(mouseSector)      
+                won, tie = TTTModel.placepiece(mouseSector)
 
         # Finalize Display
         # Draw entire gameboard
-        
-        TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)    
+
+        TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
         TTTView.finalizedisplay()
 
         gamedone = won or tie
@@ -507,16 +519,17 @@ def stttmain(playerNames):
         TTTControl.keyboardevents()
         TTTControl.mouseevents(TTTModel)
         TTTControl.consolekeys()
-        
-        # print winning_exit
+
         TTTView.drawweb()
         TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
-        TTTView.drawplayername(TTTModel.currentplayer.name, TTTModel.currentplayer.color)
-        a = TTTView.wintiepopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick, tie)    
+        TTTView.drawplayername(TTTModel.currentplayer.name,
+            TTTModel.currentplayer.color)
+        a = TTTView.wintiepopup(TTTModel.currentplayer.name,
+            TTTControl.mousepos, TTTControl.mouseclick, tie)
         TTTView.finalizedisplay()
         if TTTControl.quitgame or a == 1:
             print "Quitting"
-            pyg.quit() 
+            pyg.quit()
             return
         elif a == 2:
             welcome.welcome_main()
