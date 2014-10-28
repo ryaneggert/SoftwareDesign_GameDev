@@ -82,11 +82,11 @@ class name_buttons(object):
             self.screen, (255, 255, 255), 200, 500, 100, 80, 0, "Player 3",
             (0, 0, 0))
             text = font.render("Click on Player 1, Player 2, Player 3 to" +
-                "enter your names", 1, (255, 255, 255))
+                " enter your names", 1, (255, 255, 255))
 
         else:
             text = font.render("Click on Player 1, Player 2 to enter" +
-                "your names", 1, (255, 255, 255))
+                " your names", 1, (255, 255, 255))
 
         textpos = text.get_rect()
         textpos.centerx = self.screen.get_rect().centerx
@@ -181,5 +181,5 @@ def main(num_players):
 # run the main function only if this module is executed as the main script
 if __name__ == "__main__":
     # call the main function
-    num_players = 3
+    num_players = 2
     main(num_players)
