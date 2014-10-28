@@ -13,10 +13,8 @@ import button_gui
 # Throwing errors because when you import rules you also import Button again
 import rules
 
-"""Button class sourced from Simon H. Larsen, http://lagusan.com/button-drawer-python-2-6/"""
-
-
 class Button:
+    """Sourced from Simon H. Larsen, http://lagusan.com/button-drawer-python-2-6/"""
 
     def create_button(self, surface, color, x, y, length, height, width, text, text_color):
         surface = self.draw_button(surface, color, length, height, x, y, width)
@@ -48,17 +46,17 @@ class Button:
         pyg.draw.rect(surface, (190, 190, 190), (x, y, length, height), 1)
         return surface
 
-    # Edited from original to shorten (one if statement with ands, not four)
+    # Edited from original source code to shorten (one if statement with ands, not four separate)
     def pressed(self, mouse_pos):
         if mouse_pos[0] > self.rect.topleft[0] and mouse_pos[1] > self.rect.topleft[1] and mouse_pos[0] < self.rect.bottomright[0] and mouse_pos[1] < self.rect.bottomright[1]:
-            # print "Some button was pressed!"
+            # print "Some button was pressed!"      # Debugging
             return True
         else:
             return False
 
 
 def welcome_main():
-
+    
     # Writes window title text
     pyg.init()
     screen = pyg.display.set_mode((800, 800))   # screen is what is displayed
