@@ -294,7 +294,7 @@ class GameView(object):
         self.screen.blit(self.background, (0, 0))
         pyg.display.flip()
 
-    def winningpopup(self, playername, mouseposition, mouseclick):
+    def winningpopup(self, playername, mouseposition, mouseclick, tie):
         # print "win"
         a = 0
         trans = pyg.Surface((600, 400))  # starts at (0,0) and builds (width,height)
