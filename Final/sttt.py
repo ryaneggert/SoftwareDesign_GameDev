@@ -302,15 +302,21 @@ class GameView(object):
         trans.fill((60,60,60))
         self.background.blit(trans, (100,200))
         font = pyg.font.Font(None, 36)
-        winning_msg = 'Congratulations ' + playername + '!'
-        default_msg = 'You won the game!'
         self.font = pyg.font.SysFont('robotocondensedL', 50)
-        text = self.font.render(winning_msg, True, (255,255,255))
+        
+        if tie == 0:
+            winning_msg = 'Congratulations ' + playername + '!'
+            default_msg = 'You won the game!'
+            text = self.font.render(winning_msg, True, (255,255,255))
+            self.background.blit(self.font.render(default_msg, True, (255,255,255)), (250,500))
+        else:
+            tie_msg = 'You are all losers! Suckers! :)'
+            text = self.font.render(tie_msg, True, (255,255,255))
+        
         textrect = text.get_rect()
         textrect.centerx = self.background.get_rect().centerx
         textrect.centery = self.background.get_rect().centery
         self.background.blit(text, textrect)
-        self.background.blit(self.font.render(default_msg, True, (255,255,255)), (250,500))
         self.main_menu = welcome.Button()
         self.quitting = welcome.Button()
 
