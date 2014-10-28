@@ -101,6 +101,7 @@ class GameModel(object):
         self.webstats = [self.centerpoint]
         self.numplayers = len(players)
         self.currentplayerindex = 0
+        self.totalmoves = 0
 
         self.playernames = players
         playerobjs = []
@@ -183,6 +184,8 @@ class GameModel(object):
         """If player clicks, place their icon in the
         gameboard array and their player array
         """
+        tie = 0
+        won = 0
         sR, sTheta = sector
         if self.boardarray[sR - 1][sTheta - 1] is None:
             # Then place piece
@@ -190,12 +193,16 @@ class GameModel(object):
             self.boardarray[sR - 1][sTheta - 1] = self.currentplayer.number
             # Add move to this Player's position list
             self.currentplayer.addposition(sector)
+            self.totalmoves += 1
+            print self.totalmoves
             won = self.currentplayer.didwin()
+            if self.totalmoves >= 32:
+                tie = 1
             if not won:
                 self.nextplayer()   # Now it's the next person's turn
-            return won
         else:
             print "This space is taken"     # For debugging.
+        return won, tie
 
 class GameView(object):
 
@@ -294,7 +301,7 @@ class GameView(object):
         self.screen.blit(self.background, (0, 0))
         pyg.display.flip()
 
-    def winningpopup(self, playername, mouseposition, mouseclick, tie):
+    def wintiepopup(self, playername, mouseposition, mouseclick, tie):
         # print "win"
         a = 0
         trans = pyg.Surface((600, 400))  # starts at (0,0) and builds (width,height)
@@ -455,6 +462,7 @@ def stttmain(playerNames):
         TTTModel.centerpoint, TTTModel.radincr, TTTModel.players)
     TTTControl = GameController()
     won = 0
+    tie = 0
     winning_exit = 0
     while True:
         TTTControl.currentevents = pyg.event.get()
@@ -481,17 +489,19 @@ def stttmain(playerNames):
             TTTView.place_bug(
                 TTTModel.currentplayer, mouseSectorCenter, mouseSector)
             if TTTControl.mouseclick == 'Left':
-                won = TTTModel.placepiece(mouseSector)      
+                won, tie = TTTModel.placepiece(mouseSector)      
 
         # Finalize Display
         # Draw entire gameboard
         
         TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)    
         TTTView.finalizedisplay()
-        if won:
+
+        gamedone = won or tie
+        if gamedone:
             break
 
-    while won:
+    while gamedone:
         TTTControl.currentevents = pyg.event.get()
         TTTControl.exitevents()
         TTTControl.keyboardevents()
@@ -502,7 +512,7 @@ def stttmain(playerNames):
         TTTView.drawweb()
         TTTView.drawgamearray(TTTModel.players, TTTModel.sectorcenter)
         TTTView.drawplayername(TTTModel.currentplayer.name, TTTModel.currentplayer.color)
-        a = TTTView.winningpopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick)    
+        a = TTTView.wintiepopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick, tie)    
         TTTView.finalizedisplay()
         if TTTControl.quitgame or a == 1:
             print "Quitting"
