@@ -8,10 +8,12 @@ class Config:
     """ A utility for configuration """
     def __init__(self, options, *look_for):
         assertions = []
+        
         for key in look_for:
             if key[0] in options.keys(): exec('self.'+key[0]+' = options[\''+key[0]+'\']')
             else: exec('self.'+key[0]+' = '+key[1])
             assertions.append(key[0])
+        
         for key in options.keys():
             if key not in assertions: raise ConfigError(key+' not expected as option')
 
