@@ -48,18 +48,39 @@ def rules_main():
     text_height = 100
     
     for i in range(len(rules_list)):
-        if (rules_list[i][1]) == 0:     # Is this body text? Make the font and spacing bigger
-            objective = default_font.render(rules_list[i][0], 1, (255,255,255))
+        if (rules_list[i][1]) == 0:     # Is this body text? Make the font and spacing smaller
+            objective = default_font.render(rules_list[i][0], 1, (255, 255, 255))
             objective_pos = objective.get_rect()
             text_height += 30
             objective_pos.top = text_height
         else:   # Is this title text? Make the font and spacing bigger
-            objective = title_font.render(rules_list[i][0], 1, (255,255,255))
+            objective = title_font.render(rules_list[i][0], 1, (255, 255, 255))
             objective_pos = objective.get_rect()
-            text_height += 50
+            text_height += 45
             objective_pos.top = text_height
         objective_pos.left = 125    # Stay the same
         screen.blit(objective, objective_pos)   # Do every loop
+    pyg.display.flip()
+
+    # Add pictures to show straight rules
+    straight = pyg.image.load("straight.png")
+    straight = pyg.transform.scale(straight,(200, 200))
+    pyg.display.set_icon(straight)
+    screen.blit(straight,[100,550])
+    pyg.display.flip()
+
+    # Add pictures to show curve rules
+    curve = pyg.image.load("curve.png")
+    curve = pyg.transform.scale(curve,(200, 200))
+    pyg.display.set_icon(curve)
+    screen.blit(curve,[300,550])
+    pyg.display.flip()
+
+    # Add pictures to show spiral rules
+    spiral = pyg.image.load("spiral.png")
+    spiral = pyg.transform.scale(spiral,(200, 200))
+    pyg.display.set_icon(spiral)
+    screen.blit(spiral,[500,550])
     pyg.display.flip()
     
     # Checking for events (quitting, pressing buttons, etc.)
