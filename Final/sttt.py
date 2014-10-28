@@ -194,7 +194,7 @@ class GameModel(object):
             # Add move to this Player's position list
             self.currentplayer.addposition(sector)
             self.totalmoves += 1
-            print self.totalmoves
+            # print self.totalmoves
             won = self.currentplayer.didwin()
             if self.totalmoves >= 32:
                 tie = 1
@@ -246,7 +246,7 @@ class GameView(object):
         # Determine length of diagonal lines
         dOff = int((axisLen ** 2 / 2) ** .5)
         # Determine length of side of rect to contain arc
-        self.background.fill((250, 250, 250))
+        self.background.fill((200, 200, 200))
         for i in xrange(4):  # Draw circles
             pyg.draw.circle(
                 self.background, (0, 0, 0), self.centerpoint,
@@ -316,9 +316,13 @@ class GameView(object):
             default_msg = 'You won the game!'
             text = self.font.render(winning_msg, True, (255,255,255))
             self.background.blit(self.font.render(default_msg, True, (255,255,255)), (250,500))
+            
         else:
-            tie_msg = 'You are all losers! Suckers! :)'
+            tie_msg = "You all lose..."
+            default_msg = "Don't worry, you can try again."
             text = self.font.render(tie_msg, True, (255,255,255))
+            self.background.blit(self.font.render(default_msg, True, (255,255,255)), (160,500))
+        
         
         textrect = text.get_rect()
         textrect.centerx = self.background.get_rect().centerx
@@ -382,7 +386,7 @@ class Player(object):
         for num in range(8):
             appear = self.thetas.count(num)
             if appear == 4:
-                print self.name + ' won with a straight!'    # Debugging
+                # print self.name + ' won with a straight!'    # Debugging
                 won = 1
         return won
 
@@ -449,7 +453,7 @@ class Player(object):
         won = 0
         for item in conseclist:
             if len(item) >= 4:
-                print "Won with ring"
+                # print "Won with ring"
                 won = 1
         return won
 
@@ -473,7 +477,7 @@ def stttmain(playerNames):
         # If we want to quit, then do so.
         
         if TTTControl.quitgame:
-            print "Quitting"
+            # print "Quitting"
             pyg.quit()
             # print TTTModel.boardarray
             return
@@ -515,7 +519,7 @@ def stttmain(playerNames):
         a = TTTView.wintiepopup(TTTModel.currentplayer.name, TTTControl.mousepos, TTTControl.mouseclick, tie)    
         TTTView.finalizedisplay()
         if TTTControl.quitgame or a == 1:
-            print "Quitting"
+            # print "Quitting"
             pyg.quit() 
             return
         elif a == 2:
