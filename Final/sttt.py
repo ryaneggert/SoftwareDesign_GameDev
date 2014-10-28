@@ -12,7 +12,7 @@ from pygame.locals import *
 class GameController(object):
 
     """Tic-Tac-Toe game controller component. Read events.
-    Send inputs to GameModel object
+    Send inputs to GameModel object.
     """
 
     def __init__(self):
