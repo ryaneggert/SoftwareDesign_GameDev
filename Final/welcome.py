@@ -128,18 +128,18 @@ def welcome_main():
                     return
             # Only register click on mouse button down.
             elif event.type == MOUSEBUTTONDOWN:
-                print 'mousedown'
+                # print 'mousedown'
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
-                    print 'Rules'
+                    # print 'Rules'
                     rules.rules_main()
                     return
                 if p2_button.pressed(mouse_pos):
-                    print '2 Players'
+                    # print '2 Players'
                     button_gui.main(2)
                     return
                 if p3_button.pressed(mouse_pos):
-                    print '3 Players'
+                    # print '3 Players'
                     button_gui.main(3)
                     return
 
